@@ -1,0 +1,475 @@
+.holo-stage {
+  position: absolute;
+  inset: 0;
+  z-index: 8;
+  pointer-events: none;
+  perspective: 1600px;
+  perspective-origin: 50% 54%;
+  overflow: hidden;
+}
+
+.holo-dim {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  border: 0;
+  padding: 0;
+  background: rgba(0, 0, 0, 0.78);
+  opacity: 0;
+  pointer-events: none;
+  cursor: pointer;
+  transition: opacity 0.35s ease;
+}
+
+.holo-stage.is-inspecting .holo-dim {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.holo-stage.is-hidden {
+  visibility: hidden;
+  pointer-events: none !important;
+}
+
+.holo-stage:not(.is-ready) .holo-card {
+  pointer-events: none;
+}
+
+.holo-depth {
+  position: absolute;
+  inset: 0;
+  perspective: inherit;
+  perspective-origin: inherit;
+  pointer-events: none;
+}
+
+.holo-depth.is-back {
+  z-index: 2;
+}
+
+.holo-depth.is-front,
+.holo-depth.is-ring {
+  z-index: 4;
+}
+
+.holo-orbit-origin {
+  position: absolute;
+  left: 50%;
+  top: 56%;
+  z-index: 2;
+  width: 0;
+  height: 0;
+  transform-style: preserve-3d;
+}
+
+.holo-floor-ring {
+  position: absolute;
+  left: -22vw;
+  top: 7vh;
+  width: 44vw;
+  height: 44vw;
+  border-radius: 50%;
+  border: 1px solid rgba(0, 229, 255, 0.22);
+  box-shadow:
+    0 0 24px rgba(0, 229, 255, 0.12) inset,
+    0 0 40px rgba(255, 42, 133, 0.08);
+  background: radial-gradient(
+    circle,
+    transparent 62%,
+    rgba(0, 229, 255, 0.05) 72%,
+    transparent 76%
+  );
+  transform-style: preserve-3d;
+}
+
+.holo-core-beam {
+  position: absolute;
+  left: -1px;
+  top: -18vh;
+  width: 2px;
+  height: 36vh;
+  background: linear-gradient(
+    180deg,
+    transparent,
+    rgba(0, 229, 255, 0.55),
+    rgba(255, 42, 133, 0.35),
+    transparent
+  );
+  filter: blur(0.4px);
+  opacity: 0.55;
+}
+
+.holo-card {
+  position: absolute;
+  left: -8rem;
+  top: -11.1rem;
+  width: 16rem;
+  transform-style: preserve-3d;
+  will-change: transform, opacity;
+  transition: none;
+  touch-action: manipulation;
+}
+
+.holo-stage.is-inspecting .holo-card {
+  transition: opacity 0.28s ease;
+  pointer-events: auto;
+  cursor: pointer;
+}
+
+.holo-sleep {
+  position: absolute;
+  left: -32rem;
+  top: 4.2rem;
+  width: 32rem;
+  padding: 0;
+  pointer-events: none;
+  background: none;
+  border: none;
+  box-shadow: none;
+  transform: rotateX(68deg) rotateZ(-24deg) translate3d(-12px, 28px, -20px);
+  transform-origin: right top;
+  transform-style: preserve-3d;
+  opacity: 0;
+  filter: blur(8px);
+  transition:
+    opacity 0.42s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+    filter 0.42s ease;
+}
+
+.holo-card.is-focused .holo-sleep {
+  opacity: 1;
+  filter: blur(0);
+  transform: rotateX(60deg) rotateZ(-20deg) translate3d(0, 0, 0);
+}
+
+.holo-extrude {
+  position: relative;
+  height: 1.05em;
+  font-size: clamp(2.05rem, 4vw, 3.25rem);
+  transform-style: preserve-3d;
+  filter: drop-shadow(0 22px 20px rgba(0, 0, 0, 0.55));
+}
+
+.holo-extrude-layer {
+  position: absolute;
+  left: 0;
+  top: 0;
+  margin: 0;
+  font-family: var(--font-heading);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1;
+  text-transform: uppercase;
+  white-space: nowrap;
+  -webkit-text-stroke: 0;
+}
+
+.holo-extrude-layer.is-face {
+  text-shadow: 0 0 18px rgba(255, 255, 255, 0.18);
+}
+
+.holo-sleep-facts {
+  list-style: none;
+  margin: 1rem 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  transform: translateZ(2px);
+  transform-style: preserve-3d;
+}
+
+.holo-sleep-facts li {
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  line-height: 1.42;
+  color: #f5f6f8;
+  text-shadow: 0 6px 14px rgba(0, 0, 0, 0.55);
+}
+
+.holo-card-frame {
+  position: relative;
+  overflow: hidden;
+  border-radius: 6px;
+  background: rgba(4, 10, 16, 0.5);
+  border: 1px solid color-mix(in srgb, var(--holo-accent) 60%, transparent);
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.05) inset,
+    0 18px 40px rgba(0, 0, 0, 0.35),
+    0 0 calc(36px * var(--holo-glow)) color-mix(in srgb, var(--holo-accent) 42%, transparent);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  transform: rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg));
+  transform-style: preserve-3d;
+  transition:
+    transform 0.18s ease,
+    box-shadow 0.18s ease,
+    background 0.18s ease;
+}
+
+.holo-card.is-featured .holo-card-frame {
+  background: rgba(6, 14, 22, 0.62);
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--holo-accent) 35%, transparent) inset,
+    0 22px 50px rgba(0, 0, 0, 0.4),
+    0 0 48px color-mix(in srgb, var(--holo-accent) 55%, transparent);
+}
+
+.holo-corner {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  z-index: 4;
+  border-color: var(--holo-accent);
+  border-style: solid;
+  pointer-events: none;
+}
+
+.holo-corner.tl { top: 6px; left: 6px; border-width: 2px 0 0 2px; }
+.holo-corner.tr { top: 6px; right: 6px; border-width: 2px 2px 0 0; }
+.holo-corner.bl { bottom: 6px; left: 6px; border-width: 0 0 2px 2px; }
+.holo-corner.br { bottom: 6px; right: 6px; border-width: 0 2px 2px 0; }
+
+.holo-footage {
+  position: relative;
+  height: 178px;
+  overflow: hidden;
+}
+
+.holo-footage-canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.holo-scanlines {
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0.05) 0px,
+    rgba(255, 255, 255, 0.05) 1px,
+    transparent 1px,
+    transparent 3px
+  );
+  mix-blend-mode: screen;
+  pointer-events: none;
+}
+
+.holo-flicker {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    color-mix(in srgb, var(--holo-accent) 18%, transparent) 50%,
+    transparent 100%
+  );
+  animation: holo-sweep 2.4s linear infinite;
+  pointer-events: none;
+}
+
+.holo-rec {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-family: var(--font-mono);
+  font-size: var(--fs-micro);
+  letter-spacing: 0.16em;
+  color: #ff4d6d;
+  text-shadow: 0 0 10px rgba(255, 77, 109, 0.8);
+}
+
+.holo-rec::before {
+  content: '';
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  margin-right: 6px;
+  border-radius: 50%;
+  background: #ff4d6d;
+  box-shadow: 0 0 8px #ff4d6d;
+  animation: holo-blink 1s steps(1) infinite;
+  vertical-align: middle;
+}
+
+.holo-meta {
+  padding: 0.95rem 1.1rem 1.1rem;
+}
+
+.holo-meta-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.3rem;
+}
+
+.holo-index {
+  font-family: var(--font-mono);
+  font-size: var(--fs-tag);
+  color: var(--holo-accent);
+  letter-spacing: 0.14em;
+}
+
+.holo-signal {
+  font-family: var(--font-mono);
+  font-size: var(--fs-micro);
+  letter-spacing: 0.16em;
+  color: rgba(255, 255, 255, 0.45);
+}
+
+.holo-title {
+  margin: 0;
+  font-family: var(--font-heading);
+  font-size: 1.18rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #fff;
+  text-shadow:
+    1px 0 color-mix(in srgb, var(--holo-accent) 55%, transparent),
+    -1px 0 rgba(255, 42, 133, 0.35);
+}
+
+.holo-line {
+  margin: 0.3rem 0 0;
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.68);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.holo-hint {
+  display: block;
+  margin-top: 0.55rem;
+  font-family: var(--font-mono);
+  font-size: var(--fs-hint);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--holo-accent) 75%, #fff);
+  opacity: 0;
+  transform: translateY(4px);
+  transition: opacity 0.18s ease, transform 0.18s ease;
+}
+
+.holo-card.is-hovered .holo-card-frame {
+  background: rgba(8, 18, 28, 0.78);
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--holo-accent) 55%, transparent) inset,
+    0 24px 56px rgba(0, 0, 0, 0.45),
+    0 0 56px color-mix(in srgb, var(--holo-accent) 62%, transparent);
+}
+
+.holo-card.is-focused .holo-card-frame {
+  background: rgba(12, 24, 34, 0.92);
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--holo-accent) 70%, #fff) inset,
+    0 24px 56px rgba(0, 0, 0, 0.45),
+    0 0 64px color-mix(in srgb, var(--holo-accent) 75%, transparent);
+}
+
+.holo-card.is-hovered .holo-hint,
+.holo-card.is-focused .holo-hint {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (hover: none) {
+  .holo-card.is-featured .holo-hint {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.holo-card:focus-visible {
+  outline: none;
+}
+
+.holo-card:focus-visible .holo-card-frame {
+  box-shadow:
+    0 0 0 2px color-mix(in srgb, var(--holo-accent) 80%, #fff),
+    0 24px 56px rgba(0, 0, 0, 0.45);
+}
+
+@keyframes holo-sweep {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(100%); }
+}
+
+@keyframes holo-blink {
+  0%, 49% { opacity: 1; }
+  50%, 100% { opacity: 0.15; }
+}
+
+@media (max-width: 768px) {
+  .holo-stage {
+    perspective: 1100px;
+  }
+
+  .holo-card {
+    left: -6rem;
+    top: -8.3rem;
+    width: 12rem;
+  }
+
+  .holo-footage {
+    height: 118px;
+  }
+
+  .holo-title {
+    font-size: 0.98rem;
+  }
+
+  .holo-line {
+    display: none;
+  }
+
+  .holo-sleep {
+    left: 50%;
+    top: 108%;
+    bottom: auto;
+    width: min(16rem, 78vw);
+    transform: translateX(-50%) rotateX(18deg) translate3d(0, 8px, 0);
+  }
+
+  .holo-card.is-focused .holo-sleep {
+    transform: translateX(-50%) rotateX(12deg) translate3d(0, 0, 0);
+  }
+
+  .holo-extrude {
+    font-size: 2rem;
+  }
+
+  .holo-sleep-facts li {
+    font-size: 0.88rem;
+  }
+
+  .holo-floor-ring {
+    left: -26vw;
+    width: 52vw;
+    height: 52vw;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .holo-flicker,
+  .holo-rec::before {
+    animation: none;
+  }
+
+  .holo-card:not(.is-featured) {
+    display: none;
+  }
+
+  .holo-card.is-featured {
+    transform: translate3d(-18vw, 2vh, 80px) !important;
+    opacity: 1 !important;
+  }
+}

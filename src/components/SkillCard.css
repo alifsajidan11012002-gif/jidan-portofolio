@@ -1,0 +1,95 @@
+/* =========================================
+   SkillCard — 3D Tilt holographic card
+   ========================================= */
+
+.skill-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.65rem;
+  padding: 1.5rem 1rem 1.3rem;
+  border-radius: 0;
+  cursor: pointer;
+  user-select: none;
+
+  /* Dark glass base */
+  background: rgba(4, 10, 16, 0.58);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+
+  /* Smooth reset when mouse leaves */
+  transition:
+    transform        0.55s cubic-bezier(0.23, 1, 0.32, 1),
+    box-shadow       0.35s ease,
+    border-color     0.35s ease,
+    background-color 0.35s ease;
+
+  /* GPU layer — avoids repaint on each RAF tick */
+  will-change: transform;
+  transform-style: preserve-3d;
+}
+
+/* Hover state — glow + border color */
+.skill-card:hover {
+  border-color: var(--skill-color);
+  background: var(--skill-color-subtle);
+  box-shadow:
+    0 16px 40px rgba(0, 0, 0, 0.45),
+    0 0 0 1px var(--skill-glow),
+    0 0 28px var(--skill-glow);
+}
+
+/* ─── Shine / reflection overlay ─────── */
+.skill-card-shine {
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  /* Background set dynamically via JS */
+  z-index: 1;
+}
+
+/* ─── Icon wrapper ──────────────────── */
+.skill-icon-wrap {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 52px;
+  height: 52px;
+}
+
+.skill-icon {
+  font-size: 2.6rem;
+  color: var(--skill-color);
+  filter: drop-shadow(0 0 6px var(--skill-glow));
+  transition: filter 0.3s ease, transform 0.3s ease;
+}
+
+.skill-card:hover .skill-icon {
+  filter: drop-shadow(0 0 14px var(--skill-color));
+  transform: translateZ(12px); /* pop forward on tilt */
+}
+
+/* ─── Skill name ───────────────────── */
+.skill-name {
+  position: relative;
+  z-index: 2;
+  font-family: var(--font-mono, 'JetBrains Mono', monospace);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  color: rgba(255, 255, 255, 0.75);
+  text-align: center;
+  transition: color 0.25s ease;
+}
+
+.skill-card:hover .skill-name {
+  color: #ffffff;
+}

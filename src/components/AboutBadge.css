@@ -1,0 +1,159 @@
+.about-badge-stage {
+  position: relative;
+  width: 100%;
+  min-height: 78vh;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  touch-action: pan-y;
+  user-select: none;
+}
+
+.about-badge-hook {
+  position: absolute;
+  top: 8px;
+  left: 50%;
+  z-index: 3;
+  width: 18px;
+  height: 18px;
+  transform: translateX(-50%);
+  border-radius: 50%;
+  background: linear-gradient(180deg, #d8dde4, #8b929c);
+  box-shadow:
+    0 0 0 3px #111,
+    0 0 0 5px rgba(0, 229, 255, 0.35),
+    0 8px 16px rgba(0, 0, 0, 0.45);
+}
+
+.about-badge-straps {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.about-badge-strap {
+  fill: none;
+  stroke: #d31f52;
+  stroke-width: 6;
+  stroke-linecap: round;
+  filter: drop-shadow(0 6px 8px rgba(0, 0, 0, 0.45));
+}
+
+.about-badge {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  z-index: 2;
+  width: min(100%, 268px);
+  margin-left: -134px;
+  padding: 0.7rem 0.7rem 0.85rem;
+  background: linear-gradient(180deg, #f4f6f8 0%, #d9dee6 100%);
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  box-shadow:
+    0 18px 40px rgba(0, 0, 0, 0.45),
+    0 0 0 1px rgba(0, 0, 0, 0.2) inset;
+  cursor: grab;
+  transform: translate3d(0, -240px, 0);
+  transform-origin: 50% 0;
+  will-change: transform;
+  touch-action: none;
+}
+
+.about-badge.is-pulling {
+  cursor: grabbing;
+}
+
+.about-badge.is-falling {
+  box-shadow:
+    0 28px 50px rgba(0, 0, 0, 0.5),
+    0 0 0 1px rgba(0, 0, 0, 0.2) inset;
+}
+
+.about-badge-clip {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.6rem;
+  height: 28px;
+  margin-bottom: 0.45rem;
+}
+
+.about-badge-hole {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #050505;
+  box-shadow:
+    0 0 0 3px #b7bec8,
+    0 0 0 4px rgba(0, 0, 0, 0.25);
+}
+
+.about-badge-bar {
+  width: 42px;
+  height: 7px;
+  border-radius: 99px;
+  background: linear-gradient(180deg, #eceff3, #9aa3ae);
+}
+
+.about-badge-photo {
+  overflow: hidden;
+  height: 196px;
+  background: #0a0a0c;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+.about-badge-photo img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  object-position: 48% 18%;
+}
+
+.about-badge-meta {
+  padding: 0.7rem 0.15rem 0.15rem;
+  text-align: center;
+}
+
+.about-badge-id {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: var(--fs-micro);
+  letter-spacing: 0.16em;
+  color: #5c6570;
+  margin-bottom: 0.2rem;
+}
+
+.about-badge h3 {
+  margin: 0;
+  font-family: var(--font-heading);
+  font-size: 1rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: #14181d;
+  line-height: 1.2;
+}
+
+.about-badge-meta p {
+  margin: 0.2rem 0 0;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #00a8bc;
+}
+
+@media (max-width: 900px) {
+  .about-badge-stage {
+    min-height: 52vh;
+  }
+
+  .about-badge {
+    width: min(100%, 240px);
+    margin-left: -120px;
+  }
+}

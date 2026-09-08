@@ -1,0 +1,422 @@
+.certs-section {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  background: #000;
+  padding: 7rem 2rem 6.2rem;
+  color: #fff;
+}
+
+.certs-atmosphere {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.certs-atmosphere-bloom {
+  position: absolute;
+  width: 44vw;
+  height: 44vw;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.24;
+}
+
+.certs-atmosphere-bloom.teal {
+  left: -14vw;
+  top: 8%;
+  background: radial-gradient(circle, rgba(0, 229, 255, 0.42), transparent 68%);
+}
+
+.certs-atmosphere-bloom.gold {
+  right: -12vw;
+  bottom: 4%;
+  background: radial-gradient(circle, rgba(232, 196, 92, 0.28), transparent 70%);
+}
+
+.certs-inner {
+  position: relative;
+  z-index: 1;
+  max-width: 1180px;
+  margin: 0 auto;
+}
+
+.certs-eyebrow {
+  display: block;
+  font-family: var(--font-mono, monospace);
+  font-size: var(--fs-eyebrow);
+  font-weight: 700;
+  letter-spacing: var(--ls-eyebrow);
+  text-transform: uppercase;
+  color: var(--teal-glow, #00e5ff);
+  text-shadow: 0 0 16px rgba(0, 229, 255, 0.35);
+  margin-bottom: 0.6rem;
+}
+
+.certs-heading {
+  font-family: var(--font-heading, 'Inter', sans-serif);
+  font-size: var(--fs-section);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.02;
+  margin: 0 0 0.7rem;
+  background: linear-gradient(120deg, #fff 18%, #7af6ff 55%, #e8c45c 130%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.certs-subtext {
+  font-size: var(--fs-lead);
+  color: rgba(255, 255, 255, 0.58);
+  line-height: 1.65;
+  max-width: 40rem;
+  margin: 0 0 2.8rem;
+}
+
+.certs-gallery {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.4rem;
+  align-items: start;
+}
+
+.cert-vitrine {
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+}
+
+.cert-stage {
+  --spot-x: 50%;
+  --spot-y: 28%;
+  --cert-accent: #7af6ff;
+  position: relative;
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  text-align: left;
+  color: inherit;
+  will-change: transform;
+}
+
+.cert-spot {
+  position: absolute;
+  inset: -8% -6% 18%;
+  pointer-events: none;
+  background: radial-gradient(
+    180px circle at var(--spot-x) var(--spot-y),
+    color-mix(in srgb, var(--cert-accent) 34%, transparent),
+    transparent 70%
+  );
+  opacity: 0.8;
+}
+
+.cert-ribbon {
+  position: absolute;
+  top: 14px;
+  left: -6px;
+  z-index: 3;
+  padding: 0.28rem 0.7rem 0.28rem 0.85rem;
+  font-family: var(--font-mono, monospace);
+  font-size: var(--fs-micro);
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #061014;
+  background: var(--cert-accent);
+  clip-path: polygon(0 0, 100% 0, 92% 100%, 0 100%);
+  box-shadow: 0 8px 18px color-mix(in srgb, var(--cert-accent) 35%, transparent);
+}
+
+.cert-frame {
+  position: relative;
+  z-index: 1;
+  display: block;
+  padding: 11px;
+  border-radius: 8px;
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, 0.16), rgba(255, 255, 255, 0.02) 42%, rgba(0, 0, 0, 0.35)),
+    linear-gradient(180deg, #1a1c22, #0b0d12);
+  box-shadow:
+    0 24px 50px rgba(0, 0, 0, 0.45),
+    inset 0 1px 0 rgba(255, 255, 255, 0.16);
+}
+
+.cert-vitrine.is-cisco .cert-frame {
+  background:
+    linear-gradient(145deg, rgba(232, 196, 92, 0.55), rgba(90, 70, 20, 0.2) 40%, #120e08),
+    #1a140c;
+  box-shadow:
+    0 24px 50px rgba(0, 0, 0, 0.45),
+    0 0 0 1px rgba(232, 196, 92, 0.28),
+    inset 0 1px 0 rgba(255, 232, 170, 0.35);
+}
+
+.cert-mat {
+  display: block;
+  padding: 8px;
+  background: #07080c;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.cert-preview {
+  position: relative;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.03), transparent),
+    #101218;
+}
+
+.cert-image {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.cert-pedestal {
+  display: block;
+  height: 18px;
+  margin: 0 12% -2px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.015));
+  clip-path: polygon(6% 0, 94% 0, 100% 100%, 0 100%);
+  opacity: 0.7;
+}
+
+.cert-inspect {
+  display: flex;
+  align-items: center;
+  margin-top: 0.55rem;
+  min-height: 44px;
+  font-family: var(--font-mono, monospace);
+  font-size: var(--fs-micro);
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--cert-accent) 80%, #fff);
+  opacity: 0.72;
+  transition: opacity 0.25s ease, letter-spacing 0.25s ease;
+}
+
+.cert-stage:hover .cert-inspect,
+.cert-stage:focus-visible .cert-inspect {
+  opacity: 1;
+  letter-spacing: 0.18em;
+}
+
+.cert-stage:focus-visible {
+  outline: 2px solid var(--cert-accent);
+  outline-offset: 6px;
+  border-radius: 10px;
+}
+
+.cert-copy {
+  padding: 0 0.2rem;
+}
+
+.cert-index {
+  display: block;
+  font-family: var(--font-mono, monospace);
+  font-size: var(--fs-micro);
+  letter-spacing: 0.18em;
+  color: rgba(0, 229, 255, 0.72);
+  margin-bottom: 0.45rem;
+}
+
+.cert-issuer {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-family: var(--font-mono, monospace);
+  font-size: var(--fs-tag);
+  letter-spacing: 0.08em;
+  color: rgba(255, 255, 255, 0.62);
+  margin-bottom: 0.45rem;
+}
+
+.cert-issuer svg {
+  width: 13px;
+  height: 13px;
+  color: var(--teal-glow, #00e5ff);
+}
+
+.cert-vitrine.is-cisco .cert-issuer svg {
+  color: #e8c45c;
+}
+
+.cert-copy h3 {
+  font-family: var(--font-heading, 'Inter', sans-serif);
+  font-size: var(--fs-card-title);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.25;
+  margin: 0 0 0.55rem;
+}
+
+.cert-copy p {
+  margin: 0 0 0.85rem;
+  font-size: 0.96rem;
+  line-height: var(--lh-body);
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.cert-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem 1rem;
+  font-family: var(--font-mono, monospace);
+  font-size: var(--fs-tag);
+  color: rgba(255, 255, 255, 0.48);
+  margin-bottom: 0.75rem;
+}
+
+.cert-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.38rem;
+}
+
+.cert-tags span {
+  font-family: var(--font-mono, monospace);
+  font-size: var(--fs-tag);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: rgba(210, 248, 255, 0.82);
+  background: rgba(0, 229, 255, 0.08);
+  border: 1px solid rgba(0, 229, 255, 0.16);
+  border-radius: 999px;
+  padding: 0.22rem 0.5rem;
+}
+
+.cert-vitrine.is-cisco .cert-tags span {
+  color: rgba(255, 236, 190, 0.88);
+  background: rgba(232, 196, 92, 0.1);
+  border-color: rgba(232, 196, 92, 0.22);
+}
+
+.cert-viewer {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: max(1rem, env(safe-area-inset-top)) max(1rem, env(safe-area-inset-right)) max(1rem, env(safe-area-inset-bottom)) max(1rem, env(safe-area-inset-left));
+  background: rgba(2, 4, 8, 0.92);
+  isolation: isolate;
+}
+
+.cert-viewer-panel {
+  width: min(920px, 100%);
+  max-height: calc(100vh - 3rem);
+  max-height: calc(100dvh - 3rem);
+  overflow: auto;
+  padding: 1.15rem 1.15rem 1.25rem;
+  border-radius: 20px;
+  border: 1px solid rgba(0, 229, 255, 0.2);
+  background: #070b12;
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.55);
+}
+
+.cert-viewer-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 0.9rem;
+}
+
+.cert-viewer-kicker {
+  display: block;
+  font-family: var(--font-mono, monospace);
+  font-size: var(--fs-micro);
+  letter-spacing: 0.14em;
+  color: #00e5ff;
+  margin-bottom: 0.3rem;
+}
+
+.cert-viewer-panel h3 {
+  margin: 0;
+  font-size: 1.2rem;
+  letter-spacing: -0.03em;
+}
+
+.cert-viewer-close {
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(255, 255, 255, 0.05);
+  color: #fff;
+  border-radius: 999px;
+  min-height: 44px;
+  padding: 0.55rem 1rem;
+  font-family: var(--font-mono, monospace);
+  font-size: var(--fs-tag);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.cert-viewer-stage {
+  overflow: hidden;
+  border-radius: 12px;
+  background: #05080e;
+  margin-bottom: 0.9rem;
+}
+
+.cert-viewer-stage .cert-preview {
+  background: #fff;
+}
+
+.cert-viewer-panel p {
+  margin: 0 0 0.9rem;
+  color: rgba(255, 255, 255, 0.62);
+  line-height: 1.65;
+  font-size: var(--fs-body);
+}
+
+.cert-viewer-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.7rem;
+}
+
+.cert-viewer-actions span {
+  font-family: var(--font-mono, monospace);
+  font-size: var(--fs-tag);
+  color: rgba(255, 255, 255, 0.45);
+}
+
+@media (max-width: 980px) {
+  .certs-gallery {
+    grid-template-columns: 1fr;
+    max-width: 520px;
+    margin: 0 auto;
+  }
+}
+
+@media (max-width: 560px) {
+  .certs-section {
+    padding: 5.4rem 1.2rem 4.4rem;
+    padding-left: max(1.2rem, env(safe-area-inset-left));
+    padding-right: max(1.2rem, env(safe-area-inset-right));
+  }
+
+  .cert-viewer-panel {
+    border-radius: 14px;
+    padding: 0.95rem 0.9rem 1.1rem;
+  }
+
+  .cert-viewer-panel h3 {
+    font-size: 1.02rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cert-stage,
+  .cert-inspect {
+    transition: none;
+    transform: none;
+  }
+}

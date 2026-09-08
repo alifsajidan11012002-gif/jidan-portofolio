@@ -1,0 +1,110 @@
+:root {
+  --bg: #000000;
+  --bg-card: rgba(18, 18, 24, 0.7);
+  --border: rgba(255, 255, 255, 0.08);
+  --border-glow: rgba(170, 59, 255, 0.3);
+  --text: #9496a1;
+  --text-h: #ffffff;
+  --text-muted: #626470;
+  
+  --teal-glow: #00e5ff;
+  --magenta-glow: #ff2a85;
+  --accent: #8e44ad;
+  --accent-gradient: linear-gradient(135deg, #00e5ff 0%, #ff2a85 100%);
+  
+  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-heading: 'Outfit', var(--font-sans);
+  --font-mono: 'Space Grotesk', ui-monospace, monospace;
+
+  --fs-eyebrow: 0.75rem;
+  --fs-micro: 0.72rem;
+  --fs-caption: 0.8rem;
+  --fs-tag: 0.72rem;
+  --fs-hint: 0.75rem;
+  --fs-body: 1.02rem;
+  --fs-lead: clamp(1.02rem, 1.28vw, 1.12rem);
+  --fs-card-title: 1.22rem;
+  --fs-section: clamp(2.15rem, 4.8vw, 3.4rem);
+  --lh-body: 1.65;
+  --lh-lead: 1.68;
+  --ls-eyebrow: 0.16em;
+  --ls-tag: 0.08em;
+}
+
+.app-container {
+  width: 100%;
+  overflow-x: clip;
+}
+
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  background-color: var(--bg);
+  color: var(--text);
+  font-family: var(--font-sans);
+  font-size: 16px;
+  line-height: 1.6;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: clip;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  overscroll-behavior-x: none;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background: var(--bg);
+  color: var(--text);
+  overflow-x: clip;
+  width: 100%;
+  min-height: 100vh;
+  min-height: 100dvh;
+  min-height: var(--app-height, 100dvh);
+}
+
+button,
+a,
+[role='button'] {
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+
+#root {
+  width: 100%;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+/* Custom modern scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #000;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.35);
+}
+
+::selection {
+  background: rgba(0, 229, 255, 0.3);
+  color: #fff;
+}

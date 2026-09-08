@@ -1,0 +1,504 @@
+.edu-section {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  background: #000;
+  padding: 6.2rem 2rem 5.5rem;
+  color: #fff;
+}
+
+.edu-bg {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.edu-bg-img {
+  display: block;
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 145%;
+  top: -18%;
+  object-fit: cover;
+  object-position: center 96%;
+  will-change: transform;
+}
+
+.edu-bg-shade {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(
+      90deg,
+      rgba(0, 0, 0, 0.72) 0%,
+      rgba(0, 8, 14, 0.48) 46%,
+      rgba(0, 0, 0, 0.28) 100%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(0, 0, 0, 0.28) 0%,
+      transparent 24%,
+      rgba(0, 0, 0, 0.45) 100%
+    );
+}
+
+.edu-atmosphere-bloom {
+  position: absolute;
+  width: 44vw;
+  height: 44vw;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.34;
+}
+
+.edu-atmosphere-bloom.teal {
+  left: -12vw;
+  top: 10%;
+  background: radial-gradient(circle, rgba(0, 229, 255, 0.5), transparent 68%);
+}
+
+.edu-atmosphere-bloom.magenta {
+  right: -8vw;
+  top: 18%;
+  background: radial-gradient(circle, rgba(255, 42, 133, 0.4), transparent 70%);
+}
+
+.edu-atmosphere-bloom.gold {
+  left: 28%;
+  bottom: -8%;
+  width: 36vw;
+  height: 36vw;
+  opacity: 0.18;
+  background: radial-gradient(circle, rgba(232, 196, 92, 0.28), transparent 70%);
+}
+
+.edu-atmosphere-grid {
+  position: absolute;
+  left: -10%;
+  right: -10%;
+  bottom: -16%;
+  height: 46%;
+  background-image:
+    linear-gradient(rgba(0, 229, 255, 0.12) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 42, 133, 0.09) 1px, transparent 1px);
+  background-size: 72px 72px;
+  transform: perspective(700px) rotateX(68deg);
+  mask-image: linear-gradient(to top, rgba(0, 0, 0, 0.55), transparent 78%);
+  -webkit-mask-image: linear-gradient(to top, rgba(0, 0, 0, 0.55), transparent 78%);
+}
+
+.edu-atmosphere-vignette {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    ellipse at 50% 40%,
+    transparent 32%,
+    rgba(0, 0, 0, 0.2) 72%,
+    rgba(0, 0, 0, 0.5) 100%
+  );
+}
+
+.edu-atmosphere-grain {
+  position: absolute;
+  inset: 0;
+  opacity: 0.06;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 160 160' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  mix-blend-mode: overlay;
+}
+
+.edu-layout {
+  position: relative;
+  z-index: 1;
+  max-width: 1280px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(320px, 0.95fr);
+  gap: clamp(1.6rem, 3.5vw, 3.2rem);
+  align-items: start;
+}
+
+.edu-copy {
+  min-width: 0;
+}
+
+.edu-reveal,
+.edu-campus-brand,
+.edu-frame {
+  opacity: 0;
+}
+
+.edu-intro {
+  margin-bottom: 1.15rem;
+}
+
+.edu-eyebrow {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: var(--fs-eyebrow);
+  font-weight: 700;
+  letter-spacing: var(--ls-eyebrow);
+  text-transform: uppercase;
+  color: var(--teal-glow);
+  text-shadow: 0 0 16px rgba(0, 229, 255, 0.35);
+  margin-bottom: 0.5rem;
+}
+
+.edu-heading {
+  font-family: var(--font-heading);
+  font-size: var(--fs-section);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1;
+  margin: 0 0 0.55rem;
+  color: #fff;
+}
+
+.edu-lead {
+  max-width: 40rem;
+  margin: 0;
+  font-size: var(--fs-lead);
+  line-height: var(--lh-lead);
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.edu-degree-card {
+  padding: 1.1rem 1.25rem;
+  margin-bottom: 0.75rem;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(4, 8, 12, 0.62);
+  backdrop-filter: blur(10px);
+}
+
+.edu-degree-top {
+  display: flex;
+  justify-content: space-between;
+  gap: 1.5rem;
+  align-items: flex-start;
+}
+
+.edu-degree-kicker {
+  margin: 0 0 0.35rem;
+  font-family: var(--font-mono);
+  font-size: var(--fs-tag);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.42);
+}
+
+.edu-degree-title {
+  margin: 0;
+  font-family: var(--font-heading);
+  font-size: clamp(1.25rem, 2.2vw, 1.7rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.2;
+}
+
+.edu-degree-campus {
+  margin: 0.4rem 0 0;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.62);
+}
+
+.edu-degree-campus a,
+.edu-story-link,
+.edu-frame-plate a {
+  color: var(--teal-glow);
+  text-decoration: none;
+  border-bottom: 1px solid rgba(0, 229, 255, 0.35);
+  transition: border-color 0.2s ease, color 0.2s ease;
+}
+
+.edu-degree-campus a:hover,
+.edu-story-link:hover {
+  color: #fff;
+  border-bottom-color: rgba(255, 255, 255, 0.55);
+}
+
+.edu-story-link {
+  display: inline-block;
+  margin-top: 0.7rem;
+  font-family: var(--font-mono);
+  font-size: var(--fs-caption);
+  letter-spacing: 0.04em;
+}
+
+.edu-degree-meta {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.45rem;
+  font-family: var(--font-mono);
+  font-size: var(--fs-caption);
+  letter-spacing: 0.06em;
+  color: rgba(255, 255, 255, 0.45);
+  white-space: nowrap;
+}
+
+.edu-gpa {
+  color: var(--teal-glow);
+  border: 1px solid rgba(0, 229, 255, 0.3);
+  padding: 0.28rem 0.6rem;
+}
+
+.edu-story {
+  padding: 1.05rem 1.15rem 1rem;
+  margin-bottom: 0.7rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(4, 10, 16, 0.58);
+  backdrop-filter: blur(10px);
+}
+
+.edu-story-index {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: var(--fs-micro);
+  letter-spacing: 0.16em;
+  color: var(--teal-glow);
+  margin-bottom: 0.35rem;
+}
+
+.edu-story h3 {
+  margin: 0 0 0.45rem;
+  font-family: var(--font-heading);
+  font-size: var(--fs-card-title);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.edu-story p {
+  margin: 0 0 0.45rem;
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.edu-story p strong {
+  color: #fff;
+  font-weight: 700;
+}
+
+.edu-story ul {
+  margin: 0.55rem 0 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.28rem;
+}
+
+.edu-story li {
+  position: relative;
+  padding-left: 1rem;
+  font-family: var(--font-mono);
+  font-size: var(--fs-caption);
+  letter-spacing: 0.01em;
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.58);
+}
+
+.edu-story li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.45em;
+  width: 5px;
+  height: 1px;
+  background: var(--teal-glow);
+}
+
+.edu-visuals {
+  position: sticky;
+  top: 1.6rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.2rem;
+}
+
+.edu-campus-brand {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.8rem;
+  text-decoration: none;
+  color: #fff;
+}
+
+.edu-campus-logo {
+  width: clamp(52px, 6vw, 72px);
+  height: clamp(52px, 6vw, 72px);
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+.edu-campus-brand-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 0.28rem;
+}
+
+.edu-campus-brand-name {
+  margin: 0;
+  font-family: var(--font-heading);
+  font-size: clamp(1.35rem, 2.4vw, 1.9rem);
+  font-weight: 800;
+  letter-spacing: -0.035em;
+  line-height: 1;
+}
+
+.edu-campus-brand-sub {
+  font-family: var(--font-mono);
+  font-size: var(--fs-tag);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.52);
+}
+
+.edu-campus-brand:hover .edu-campus-brand-name {
+  color: var(--teal-glow);
+}
+
+.edu-frame {
+  position: relative;
+  width: 100%;
+  max-width: 520px;
+  margin: 0;
+  padding: 11px;
+  background:
+    linear-gradient(155deg, #4a3820 0%, #1c140d 38%, #2a1d12 72%, #3d2c18 100%);
+  box-shadow:
+    0 28px 70px rgba(0, 0, 0, 0.62),
+    0 0 0 1px rgba(212, 175, 55, 0.28),
+    inset 0 0 0 1px rgba(232, 196, 92, 0.55),
+    inset 0 0 0 6px #0b0907,
+    inset 0 0 0 7px rgba(212, 175, 55, 0.32);
+}
+
+.edu-frame-photo {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 3 / 4;
+  background: #111;
+}
+
+.edu-frame-photo img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 14%;
+  transform-origin: 50% 30%;
+}
+
+.edu-frame-corner {
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.edu-frame-corner.tl,
+.edu-frame-corner.tr,
+.edu-frame-corner.bl,
+.edu-frame-corner.br {
+  border: 0 solid #e4c25a;
+}
+
+.edu-frame-corner.tl {
+  top: 5px;
+  left: 5px;
+  border-top-width: 2px;
+  border-left-width: 2px;
+}
+
+.edu-frame-corner.tr {
+  top: 5px;
+  right: 5px;
+  border-top-width: 2px;
+  border-right-width: 2px;
+}
+
+.edu-frame-corner.bl {
+  bottom: 5px;
+  left: 5px;
+  border-bottom-width: 2px;
+  border-left-width: 2px;
+}
+
+.edu-frame-corner.br {
+  bottom: 5px;
+  right: 5px;
+  border-bottom-width: 2px;
+  border-right-width: 2px;
+}
+
+.edu-frame-plate {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  margin-top: 8px;
+  padding: 0.55rem 0.4rem 0.2rem;
+  font-family: var(--font-mono);
+  font-size: var(--fs-tag);
+  letter-spacing: 0.08em;
+  color: rgba(232, 196, 92, 0.78);
+}
+
+.edu-frame-plate span {
+  color: #e8c45c;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+}
+
+@media (max-width: 980px) {
+  .edu-section {
+    padding: 4.6rem 1.2rem 4.6rem;
+    padding-left: max(1.2rem, env(safe-area-inset-left));
+    padding-right: max(1.2rem, env(safe-area-inset-right));
+  }
+
+  .edu-layout {
+    grid-template-columns: 1fr;
+    gap: 2.2rem;
+  }
+
+  .edu-visuals {
+    position: static;
+  }
+
+  .edu-bg-shade {
+    background:
+      linear-gradient(180deg, rgba(0, 0, 0, 0.62) 0%, rgba(0, 8, 14, 0.4) 48%, rgba(0, 0, 0, 0.58) 100%);
+  }
+
+  .edu-degree-top {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .edu-degree-meta {
+    align-items: flex-start;
+  }
+
+  .edu-frame {
+    width: min(100%, 420px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .edu-reveal,
+  .edu-frame,
+  .edu-campus-brand,
+  .edu-frame-plate,
+  .edu-frame-corner,
+  .edu-bg-img,
+  .edu-frame-photo img {
+    transform: none !important;
+    opacity: 1 !important;
+  }
+}
