@@ -36,10 +36,10 @@ function useOrbitRadius() {
     const update = () => {
       const width = window.innerWidth
       const landscape = window.matchMedia('(orientation: landscape) and (max-height: 540px)').matches
-      if (landscape) setRadius({ x: 30, z: 128, scale: 0.54 })
-      else if (width <= 560) setRadius({ x: 38, z: 158, scale: 0.64 })
-      else if (width <= 768) setRadius({ x: 33, z: 200, scale: 0.76 })
-      else setRadius({ x: 26, z: 340, scale: 1 })
+      if (landscape) setRadius({ x: 30, z: 128, scale: 0.54, y: 2.2 })
+      else if (width <= 560) setRadius({ x: 33, z: 142, scale: 0.58, y: 3.1 })
+      else if (width <= 768) setRadius({ x: 31, z: 180, scale: 0.7, y: 3.6 })
+      else setRadius({ x: 26, z: 340, scale: 1, y: 4.6 })
     }
     update()
     window.addEventListener('resize', update)
@@ -68,8 +68,8 @@ function useHeadOrigin() {
       const landscape = window.matchMedia('(orientation: landscape) and (max-height: 540px)').matches
       const mobile = window.innerWidth <= 768
       setSpace({
-        x: head.xPercent + (landscape ? 5.2 : mobile ? 5.4 : 8),
-        y: head.yPercent + (landscape ? 1.6 : mobile ? 6 : 8),
+        x: head.xPercent + (landscape ? 5.2 : mobile ? 4.6 : 8),
+        y: head.yPercent + (landscape ? 1.6 : mobile ? 4.2 : 8),
         headX: head.xPercent,
         headY: head.yPercent - (landscape ? 0 : 1),
         headD: head.d,
@@ -92,7 +92,7 @@ function getOrbitFromAngle(angle, radius) {
   const cosA = Math.cos(angle)
   const depth = (cosA + 1) / 2
   const x = sinA * radius.x
-  const y = sinA * 4.6 + cosA * 0.9
+  const y = sinA * (radius.y ?? 4.6) + cosA * 0.9
   const z = cosA * radius.z
   const scale = (0.36 + depth * 0.64) * (radius.scale ?? 1)
   const opacity = 0.24 + depth * 0.76
@@ -283,7 +283,7 @@ function Card({
   const dimmed = Boolean(focusedId && !isFocused)
   const boost = isFocused ? 1.08 : isHovered ? 1.04 : 1
   const destX = isFocused ? dest.x * 0.16 + (isLandscapePhone ? 11 : 0) : orbit.x
-  const destY = isFocused ? dest.y * 0.06 - (isPortraitPhone ? 15 : 0) : orbit.y
+  const destY = isFocused ? dest.y * 0.06 - (isPortraitPhone ? 12 : 0) : orbit.y
   const destZ = isFocused ? 90 : orbit.z + (1 - enter) * -260
   const destScale = (isFocused ? 0.98 * sizeScale : orbit.scale) * boost
   const appear = smoothstep(0.04, 0.32, enter)

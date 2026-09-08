@@ -231,7 +231,7 @@
   padding: 0.28rem 0.58rem;
 }
 
-@media (max-width: 800px) {
+@media (max-width: 800px) and (orientation: portrait) {
   .exp-section {
     padding: 5rem 1.2rem 4.8rem;
     padding-left: max(1.2rem, env(safe-area-inset-left));

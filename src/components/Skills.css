@@ -262,7 +262,7 @@ html.is-ios .skills-pin {
   touch-action: pan-y;
 }
 
-@media (max-width: 900px) {
+@media (max-width: 900px) and (orientation: portrait) {
   .skills-layout {
     grid-template-columns: 1fr;
     align-items: center;
@@ -285,7 +285,7 @@ html.is-ios .skills-pin {
   }
 }
 
-@media (max-width: 560px) {
+@media (max-width: 560px) and (orientation: portrait) {
   .skills-pin {
     padding: 4.4rem 1.2rem 4.6rem;
     padding-left: max(1.2rem, env(safe-area-inset-left));

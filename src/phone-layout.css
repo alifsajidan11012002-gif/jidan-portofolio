@@ -1,48 +1,220 @@
-/* Phone portrait: stacked, compact, safe areas */
+/* Phone portrait: stacked, compact, never inherit landscape 2-column layouts */
 @media (max-width: 900px) and (orientation: portrait) {
+  html.is-phone-portrait .hero-overlay-ui,
+  .hero-overlay-ui {
+    padding: 1.05rem 1rem;
+    padding-top: max(1.05rem, env(safe-area-inset-top));
+    padding-bottom: max(1rem, env(safe-area-inset-bottom));
+  }
+
+  html.is-phone-portrait .hero-left-panel,
   .hero-left-panel {
-    bottom: 4.6rem;
-    max-width: calc(100vw - 5.2rem);
+    left: 1rem;
+    bottom: 4.2rem;
+    max-width: min(18.5rem, calc(100vw - 5.4rem));
   }
 
+  html.is-phone-portrait .hero-big-name,
+  .hero-big-name {
+    font-size: clamp(1.18rem, 6.4vw, 1.7rem);
+  }
+
+  html.is-phone-portrait .hero-left-panel .hero-tagline-text,
   .hero-left-panel .hero-tagline-text {
-    font-size: 0.8rem;
-    max-width: 16rem;
+    font-size: 0.78rem;
+    max-width: 15.5rem;
   }
 
+  html.is-phone-portrait .holo-card,
+  .holo-card {
+    left: -4.05rem;
+    top: -5.85rem;
+    width: 8.1rem;
+  }
+
+  html.is-phone-portrait .holo-footage,
+  .holo-footage {
+    height: 74px;
+  }
+
+  html.is-phone-portrait .holo-meta,
+  .holo-meta {
+    padding: 0.48rem 0.58rem 0.55rem;
+  }
+
+  html.is-phone-portrait .holo-title,
+  .holo-title {
+    font-size: 0.66rem;
+    letter-spacing: 0.02em;
+  }
+
+  html.is-phone-portrait .holo-line,
+  .holo-line {
+    display: none;
+  }
+
+  html.is-phone-portrait .holo-sleep,
+  .holo-sleep {
+    left: 50%;
+    right: auto;
+    top: calc(100% + 0.15rem);
+    width: min(76vw, 15.6rem);
+    transform: translate3d(-50%, 8px, 0) rotateX(20deg) rotateZ(-6deg);
+    transform-origin: center top;
+    text-align: center;
+    filter: none;
+  }
+
+  html.is-phone-portrait .holo-card.is-focused .holo-sleep,
+  .holo-card.is-focused .holo-sleep {
+    opacity: 1;
+    filter: none;
+    transform: translate3d(-50%, 0, 0) rotateX(14deg) rotateZ(-5deg);
+    animation: holo-sleep-in 0.42s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+
+  html.is-phone-portrait .holo-extrude,
+  .holo-extrude {
+    font-size: clamp(1.2rem, 6.6vw, 1.75rem);
+  }
+
+  html.is-phone-portrait .holo-extrude-layer,
+  .holo-extrude-layer {
+    left: 50%;
+  }
+
+  html.is-phone-portrait .holo-sleep-facts,
+  .holo-sleep-facts {
+    align-items: center;
+    margin-top: 0.4rem;
+  }
+
+  html.is-phone-portrait .holo-sleep-facts li,
+  .holo-sleep-facts li {
+    font-size: 0.74rem;
+    text-align: center;
+  }
+
+  html.is-phone-portrait .about-section,
   .about-section {
-    padding-top: 4.2rem;
-    padding-bottom: 2.2rem;
+    margin-top: -3vh;
+    padding: 4.2rem 1.15rem 2.6rem;
+    padding-left: max(1.15rem, env(safe-area-inset-left));
+    padding-right: max(1.15rem, env(safe-area-inset-right));
   }
 
+  html.is-phone-portrait .about-inner,
   .about-inner {
-    gap: 1.1rem;
+    grid-template-columns: 1fr;
+    gap: 1.15rem;
+    min-height: 0;
   }
 
+  html.is-phone-portrait .about-copy,
+  .about-copy {
+    padding-bottom: 0.4rem;
+    order: 1;
+  }
+
+  html.is-phone-portrait .about-badge-stage,
+  .about-badge-stage {
+    order: 2;
+    min-height: 340px;
+  }
+
+  html.is-phone-portrait .about-badge,
+  .about-badge {
+    width: min(68vw, 196px);
+    margin-left: calc(min(68vw, 196px) / -2);
+  }
+
+  html.is-phone-portrait .about-badge-photo,
+  .about-badge-photo {
+    height: 138px;
+  }
+
+  html.is-phone-portrait .about-stats,
+  .about-stats {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  html.is-phone-portrait .skills-layout,
+  .skills-layout {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  html.is-phone-portrait .skills-pin,
   .skills-pin {
-    padding-top: 3.6rem;
-    padding-bottom: 3.2rem;
+    min-height: 100vh;
+    height: auto;
+    padding: 3.8rem 1.15rem 3.4rem;
+    padding-left: max(1.15rem, env(safe-area-inset-left));
+    padding-right: max(1.15rem, env(safe-area-inset-right));
   }
 
+  html.is-phone-portrait .skills-stage,
   .skills-stage {
-    min-height: 46vh;
-    height: 46vh;
+    min-height: 44vh;
+    height: 44vh;
   }
 
+  html.is-ios.is-phone-portrait .skills-section,
+  html.is-ios .skills-section {
+    height: 250vh;
+  }
+
+  html.is-phone-portrait .edu-layout,
+  .edu-layout {
+    grid-template-columns: 1fr;
+    gap: 1.6rem;
+  }
+
+  html.is-phone-portrait .exp-cards,
+  .exp-cards {
+    grid-template-columns: 1fr;
+  }
+
+  html.is-phone-portrait .projects-stage,
+  .projects-stage {
+    height: 320px;
+  }
+
+  html.is-phone-portrait .project-card,
+  .project-card {
+    width: min(86vw, 400px);
+    height: 240px;
+  }
+
+  html.is-phone-portrait .certs-gallery,
+  .certs-gallery {
+    grid-template-columns: 1fr;
+    max-width: 520px;
+  }
+
+  html.is-phone-portrait .contact-grid,
+  .contact-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  html.is-phone-portrait .edu-section,
+  html.is-phone-portrait .exp-section,
+  html.is-phone-portrait .projects-section,
+  html.is-phone-portrait .certs-section,
+  html.is-phone-portrait .contact-section,
   .edu-section,
   .exp-section,
   .projects-section,
   .certs-section,
   .contact-section {
-    padding-top: 4.4rem;
-    padding-bottom: 3.6rem;
+    padding-top: 4.2rem;
+    padding-bottom: 3.4rem;
   }
 }
 
 /* Phone landscape: short viewport, even when width is 844–932px */
 @media (orientation: landscape) and (max-height: 540px) {
   html.is-phone-landscape .hero-overlay-ui,
-  .hero-overlay-ui {
   .hero-overlay-ui {
     padding: 0.7rem 1rem;
     padding-top: max(0.7rem, env(safe-area-inset-top));
