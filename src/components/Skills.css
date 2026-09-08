@@ -9,6 +9,7 @@
   position: relative;
   overflow: hidden;
   min-height: 100vh;
+  min-height: 100dvh;
   padding: 5.2rem 2rem;
   display: flex;
   align-items: center;
@@ -252,18 +253,21 @@
 @media (max-width: 900px) {
   .skills-layout {
     grid-template-columns: 1fr;
-    align-items: start;
+    align-items: center;
+    width: 100%;
   }
 
   .skills-pin {
-    align-items: flex-start;
+    min-height: 100vh;
+    min-height: 100dvh;
+    align-items: center;
   }
 
   .skills-stage {
-    min-height: 58vh;
-    min-height: 58dvh;
-    height: 58vh;
-    height: 58dvh;
+    min-height: 48vh;
+    min-height: 48dvh;
+    height: 48vh;
+    height: 48dvh;
     margin: 0;
     border-radius: 14px;
   }

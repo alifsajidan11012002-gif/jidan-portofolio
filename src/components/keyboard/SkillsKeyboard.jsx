@@ -169,8 +169,8 @@ function SceneCamera({ isMobile, progress, reduceMotion, stageRef }) {
     const t = easeInOutCubic(smoothstep(0, 0.82, p))
     camera.position.set(
       0,
-      MathUtils.lerp(isMobile ? 6.2 : 5.85, isMobile ? 5.6 : 5.2, t),
-      MathUtils.lerp(isMobile ? 9.4 : 9.0, isMobile ? 7.6 : 7.2, t),
+      MathUtils.lerp(isMobile ? 6.0 : 5.85, isMobile ? 5.35 : 5.2, t),
+      MathUtils.lerp(isMobile ? 9.1 : 9.0, isMobile ? 7.35 : 7.2, t),
     )
 
     const stage = stageRef.current

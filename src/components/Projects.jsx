@@ -97,7 +97,7 @@ export default function Projects() {
     const layout = () => {
       const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
       const compact = window.innerWidth < 760
-      const spacing = compact ? 210 : 360
+      const spacing = compact ? 250 : 360
 
       cardRefs.current.forEach((el, index) => {
         if (!el) return
@@ -108,7 +108,7 @@ export default function Projects() {
           x: offset * spacing,
           y: abs * 10,
           z: abs === 0 ? 160 : -150 - abs * 50,
-          rotateY: offset * (compact ? -32 : -46),
+          rotateY: offset * (compact ? -42 : -46),
           scale: abs === 0 ? 1 : abs === 1 ? 0.78 : 0.6,
           opacity: abs === 0 ? 1 : abs === 1 ? 0.78 : 0.38,
           filter: abs === 0 ? 'brightness(1)' : 'brightness(0.55)',

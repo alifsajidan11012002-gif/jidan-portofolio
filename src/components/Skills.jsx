@@ -54,47 +54,35 @@ export default function Skills() {
         },
       })
 
-      const mm = gsap.matchMedia()
-
-      mm.add(
-        {
-          isDesktop: '(min-width: 901px)',
-          isMobile: '(max-width: 900px)',
+      gsap.to('.skills-hint', {
+        y: 0,
+        opacity: 1,
+        duration: 0.5,
+        ease: 'power2.out',
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: 'top+=95% top',
+          once: true,
         },
-        (media) => {
-          const desktop = media.conditions.isDesktop
+      })
 
-          gsap.to('.skills-hint', {
-            y: 0,
-            opacity: 1,
-            duration: 0.5,
-            ease: 'power2.out',
-            scrollTrigger: {
-              trigger: sectionRef.current,
-              start: desktop ? 'top+=95% top' : 'center 38%',
-              once: true,
-            },
-          })
-
-          ScrollTrigger.create({
-            id: 'skills-keyboard',
-            trigger: sectionRef.current,
-            pin: desktop ? pinRef.current : false,
-            start: desktop ? 'top top' : 'top 82%',
-            end: desktop ? '+=150%' : 'bottom 14%',
-            pinSpacing: true,
-            anticipatePin: 1,
-            scrub: 1.2,
-            invalidateOnRefresh: true,
-            onUpdate: (self) => {
-              scrollProgress.current = self.progress
-            },
-            onRefresh: (self) => {
-              scrollProgress.current = self.progress
-            },
-          })
+      ScrollTrigger.create({
+        id: 'skills-keyboard',
+        trigger: sectionRef.current,
+        pin: pinRef.current,
+        start: 'top top',
+        end: '+=150%',
+        pinSpacing: true,
+        anticipatePin: 1,
+        scrub: 1.2,
+        invalidateOnRefresh: true,
+        onUpdate: (self) => {
+          scrollProgress.current = self.progress
         },
-      )
+        onRefresh: (self) => {
+          scrollProgress.current = self.progress
+        },
+      })
 
       gsap.fromTo(
         '.skills-atmosphere-bloom',

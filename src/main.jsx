@@ -6,6 +6,10 @@ import './index.css'
 import App from './App.jsx'
 
 gsap.registerPlugin(ScrollTrigger)
+ScrollTrigger.config({
+  ignoreMobileResize: true,
+  autoRefreshEvents: 'visibilitychange,DOMContentLoaded,load',
+})
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>

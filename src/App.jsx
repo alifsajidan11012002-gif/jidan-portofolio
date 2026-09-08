@@ -20,80 +20,64 @@ function setAppHeight() {
 function App() {
   useEffect(() => {
     setAppHeight()
+    let lastWidth = window.innerWidth
     let refreshTimer = 0
-    const onViewportChange = () => {
+
+    const refreshIfWidthChanged = () => {
       setAppHeight()
+      const width = window.innerWidth
+      if (Math.abs(width - lastWidth) < 48) return
+      lastWidth = width
       window.clearTimeout(refreshTimer)
-      refreshTimer = window.setTimeout(() => ScrollTrigger.refresh(), 180)
+      refreshTimer = window.setTimeout(() => ScrollTrigger.refresh(), 220)
     }
 
-    window.addEventListener('resize', onViewportChange)
-    window.addEventListener('orientationchange', onViewportChange)
-    window.visualViewport?.addEventListener('resize', onViewportChange)
+    const onOrientation = () => {
+      lastWidth = window.innerWidth
+      setAppHeight()
+      window.clearTimeout(refreshTimer)
+      refreshTimer = window.setTimeout(() => ScrollTrigger.refresh(), 280)
+    }
+
+    window.addEventListener('resize', refreshIfWidthChanged)
+    window.addEventListener('orientationchange', onOrientation)
 
     return () => {
       window.clearTimeout(refreshTimer)
-      window.removeEventListener('resize', onViewportChange)
-      window.removeEventListener('orientationchange', onViewportChange)
-      window.visualViewport?.removeEventListener('resize', onViewportChange)
+      window.removeEventListener('resize', refreshIfWidthChanged)
+      window.removeEventListener('orientationchange', onOrientation)
     }
   }, [])
 
   useEffect(() => {
-    const media = window.matchMedia('(max-width: 900px), (pointer: coarse)')
-    let lenis = null
-    let updateTicker = null
+    const lenis = new Lenis({
+      duration: 1.15,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      smoothWheel: true,
+      syncTouch: true,
+      touchMultiplier: 1.28,
+      gestureOrientation: 'vertical',
+    })
 
-    const teardown = () => {
-      if (updateTicker) {
-        gsap.ticker.remove(updateTicker)
-        updateTicker = null
-      }
-      if (lenis) {
-        lenis.destroy()
-        lenis = null
-      }
-      gsap.ticker.lagSmoothing(500, 33)
+    lenis.on('scroll', ScrollTrigger.update)
+
+    const updateTicker = (time) => {
+      lenis.raf(time * 1000)
     }
 
-    const setup = () => {
-      teardown()
-      if (media.matches) {
-        ScrollTrigger.refresh()
-        return
-      }
-
-      lenis = new Lenis({
-        duration: 1.2,
-        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-        smoothWheel: true,
-        syncTouch: false,
-        touchMultiplier: 1,
-      })
-
-      lenis.on('scroll', ScrollTrigger.update)
-      updateTicker = (time) => {
-        lenis.raf(time * 1000)
-      }
-      gsap.ticker.add(updateTicker)
-      gsap.ticker.lagSmoothing(0)
-    }
-
-    setup()
-    media.addEventListener('change', setup)
+    gsap.ticker.add(updateTicker)
+    gsap.ticker.lagSmoothing(0)
 
     return () => {
-      media.removeEventListener('change', setup)
-      teardown()
+      gsap.ticker.remove(updateTicker)
+      gsap.ticker.lagSmoothing(500, 33)
+      lenis.destroy()
     }
   }, [])
 
   return (
     <main className="app-container">
-      {/* 240-Frame Interactive Scrollytelling Section */}
       <Hero />
-
-      {/* Continuation Portfolio Content */}
       <About />
       <Education />
       <Experience />
@@ -101,7 +85,6 @@ function App() {
       <Projects />
       <Certificates />
       <Contact />
-
     </main>
   )
 }

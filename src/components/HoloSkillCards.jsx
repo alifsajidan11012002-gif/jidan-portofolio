@@ -35,8 +35,8 @@ function useOrbitRadius() {
   useEffect(() => {
     const update = () => {
       const width = window.innerWidth
-      if (width <= 560) setRadius({ x: 18, z: 150 })
-      else if (width <= 768) setRadius({ x: 22, z: 200 })
+      if (width <= 560) setRadius({ x: 24, z: 270 })
+      else if (width <= 768) setRadius({ x: 25, z: 300 })
       else setRadius({ x: 26, z: 340 })
     }
     update()
@@ -265,12 +265,12 @@ function Card({
   const boost = isFocused ? 1.16 : isHovered ? 1.06 : 1
   const destX = isFocused ? dest.x * 0.38 : orbit.x
   const destY = isFocused ? dest.y * 0.18 : orbit.y
-  const destZ = isFocused ? (isMobile ? 70 : 130) : orbit.z + (1 - enter) * -260
-  const destScale = (isFocused ? (isMobile ? 1.02 : 1.08) : orbit.scale) * boost
+  const destZ = isFocused ? 130 : orbit.z + (1 - enter) * -260
+  const destScale = (isFocused ? 1.08 : orbit.scale) * boost
   const appear = smoothstep(0.04, 0.32, enter)
   const liveOpacity = enter >= 0.96 ? orbit.opacity : appear
-  const interactive = isFocused || (!focusedId && (isFront || orbit.depth > 0.55))
-  const extrudeLayers = isMobile ? 10 : 28
+  const interactive = enter > 0.68
+  const extrudeLayers = isMobile ? 18 : 28
 
   return (
     <article
@@ -284,7 +284,7 @@ function Card({
           rotateX(${isFocused ? 0 : orbit.rotateX}deg)
           scale(${lerp(0.3, destScale, enter)})
         `,
-        pointerEvents: enter > 0.68 && interactive ? 'auto' : 'none',
+        pointerEvents: interactive ? 'auto' : 'none',
         '--holo-accent': skill.accent,
         '--holo-glow': isFocused ? 1 : Math.max(orbit.depth, appear),
       }}

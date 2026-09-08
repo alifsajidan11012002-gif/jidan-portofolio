@@ -163,9 +163,8 @@ export default function Hero() {
     if (!canvas) return
 
     const dpr = Math.min(window.devicePixelRatio || 1, window.innerWidth <= 768 ? 1.5 : 2)
-    const view = window.visualViewport
-    const w = Math.round(view?.width || window.innerWidth)
-    const h = Math.round(view?.height || window.innerHeight)
+    const w = window.innerWidth
+    const h = window.innerHeight
 
     canvas.width = Math.round(w * dpr)
     canvas.height = Math.round(h * dpr)
@@ -179,10 +178,10 @@ export default function Hero() {
   useEffect(() => {
     handleResize()
     window.addEventListener('resize', handleResize)
-    window.visualViewport?.addEventListener('resize', handleResize)
+    window.addEventListener('orientationchange', handleResize)
     return () => {
       window.removeEventListener('resize', handleResize)
-      window.visualViewport?.removeEventListener('resize', handleResize)
+      window.removeEventListener('orientationchange', handleResize)
     }
   }, [handleResize])
 
@@ -208,7 +207,7 @@ export default function Hero() {
     const trigger = ScrollTrigger.create({
       trigger: section,
       start: 'top top',
-      end: () => (window.matchMedia('(max-width: 900px)').matches ? '+=220%' : '+=350%'),
+      end: '+=350%',
       pin: viewport,
       pinSpacing: true,
       anticipatePin: 1,

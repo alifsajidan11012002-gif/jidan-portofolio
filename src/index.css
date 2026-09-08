@@ -51,7 +51,6 @@ html {
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  overflow-x: clip;
   -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
   overscroll-behavior-x: none;
@@ -62,7 +61,6 @@ body {
   padding: 0;
   background: var(--bg);
   color: var(--text);
-  overflow-x: clip;
   width: 100%;
   min-height: 100vh;
   min-height: 100dvh;
@@ -84,6 +82,7 @@ a,
   display: flex;
   flex-direction: column;
   position: relative;
+  overflow-x: clip;
 }
 
 /* Custom modern scrollbar */
