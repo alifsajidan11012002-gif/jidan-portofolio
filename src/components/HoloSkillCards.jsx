@@ -35,13 +35,19 @@ function useOrbitRadius() {
   useEffect(() => {
     const update = () => {
       const width = window.innerWidth
-      if (width <= 560) setRadius({ x: 36, z: 168, scale: 0.68 })
-      else if (width <= 768) setRadius({ x: 32, z: 210, scale: 0.78 })
+      const landscape = window.matchMedia('(orientation: landscape) and (max-height: 540px)').matches
+      if (landscape) setRadius({ x: 30, z: 128, scale: 0.54 })
+      else if (width <= 560) setRadius({ x: 38, z: 158, scale: 0.64 })
+      else if (width <= 768) setRadius({ x: 33, z: 200, scale: 0.76 })
       else setRadius({ x: 26, z: 340, scale: 1 })
     }
     update()
     window.addEventListener('resize', update)
-    return () => window.removeEventListener('resize', update)
+    window.addEventListener('orientationchange', update)
+    return () => {
+      window.removeEventListener('resize', update)
+      window.removeEventListener('orientationchange', update)
+    }
   }, [])
 
   return radius
@@ -59,18 +65,23 @@ function useHeadOrigin() {
   useEffect(() => {
     const update = () => {
       const head = getCoverHead()
+      const landscape = window.matchMedia('(orientation: landscape) and (max-height: 540px)').matches
       const mobile = window.innerWidth <= 768
       setSpace({
-        x: head.xPercent + (mobile ? 5.4 : 8),
-        y: head.yPercent + (mobile ? 7 : 8),
+        x: head.xPercent + (landscape ? 5.2 : mobile ? 5.4 : 8),
+        y: head.yPercent + (landscape ? 1.6 : mobile ? 6 : 8),
         headX: head.xPercent,
-        headY: head.yPercent - 1,
+        headY: head.yPercent - (landscape ? 0 : 1),
         headD: head.d,
       })
     }
     update()
     window.addEventListener('resize', update)
-    return () => window.removeEventListener('resize', update)
+    window.addEventListener('orientationchange', update)
+    return () => {
+      window.removeEventListener('resize', update)
+      window.removeEventListener('orientationchange', update)
+    }
   }, [])
 
   return space
@@ -112,7 +123,9 @@ export default function HoloSkillCards({ progress }) {
   const count = SKILL_CARDS.length
   const radius = useOrbitRadius()
   const space = useHeadOrigin()
-  const isMobile = useMediaFlag('(max-width: 768px)')
+  const isMobile = useMediaFlag('(max-width: 900px), ((orientation: landscape) and (max-height: 540px))')
+  const isPortraitPhone = useMediaFlag('(orientation: portrait) and (max-width: 900px)')
+  const isLandscapePhone = useMediaFlag('(orientation: landscape) and (max-height: 540px)')
   const safeProgress = Math.min(1, Math.max(0, progress))
   const spin = getSteppedSpin(safeProgress, count)
   const orbitSpin = spin / TWO_PI
@@ -197,6 +210,8 @@ export default function HoloSkillCards({ progress }) {
           handleTilt={handleTilt}
           clearTilt={clearTilt}
           isMobile={isMobile}
+          isPortraitPhone={isPortraitPhone}
+          isLandscapePhone={isLandscapePhone}
           sizeScale={radius.scale}
         />
       )
@@ -204,7 +219,7 @@ export default function HoloSkillCards({ progress }) {
 
   return (
     <div
-      className={`holo-stage${focusedId ? ' is-inspecting' : ''}${firstEnter < 0.01 ? ' is-hidden' : ''}${firstEnter > 0.55 ? ' is-ready' : ''}`}
+      className={`holo-stage${focusedId ? ' is-inspecting' : ''}${firstEnter < 0.01 ? ' is-hidden' : ''}${firstEnter > 0.55 ? ' is-ready' : ''}${isPortraitPhone ? ' is-phone-portrait' : ''}${isLandscapePhone ? ' is-phone-landscape' : ''}`}
       aria-live="polite"
       style={{
         perspectiveOrigin: `${space.x}% ${space.y}%`,
@@ -261,12 +276,14 @@ function Card({
   handleTilt,
   clearTilt,
   isMobile,
+  isPortraitPhone,
+  isLandscapePhone,
   sizeScale,
 }) {
   const dimmed = Boolean(focusedId && !isFocused)
   const boost = isFocused ? 1.08 : isHovered ? 1.04 : 1
-  const destX = isFocused ? dest.x * 0.2 : orbit.x
-  const destY = isFocused ? dest.y * 0.08 - (isMobile ? 16 : 0) : orbit.y
+  const destX = isFocused ? dest.x * 0.16 + (isLandscapePhone ? 11 : 0) : orbit.x
+  const destY = isFocused ? dest.y * 0.06 - (isPortraitPhone ? 15 : 0) : orbit.y
   const destZ = isFocused ? 90 : orbit.z + (1 - enter) * -260
   const destScale = (isFocused ? 0.98 * sizeScale : orbit.scale) * boost
   const appear = smoothstep(0.04, 0.32, enter)
@@ -333,7 +350,7 @@ function Card({
                 key={layer}
                 className={`holo-extrude-layer${layer === 0 ? ' is-face' : ''}`}
                 style={{
-                  transform: `${isMobile ? 'translateX(-50%) ' : ''}translateZ(${-layer * 2.15}px)`,
+                  transform: `${isPortraitPhone ? 'translateX(-50%) ' : ''}translateZ(${-layer * 2.15}px)`,
                   color: layer === 0 ? '#ffffff' : `hsl(210 8% ${18 + layer * 0.7}%)`,
                 }}
               >

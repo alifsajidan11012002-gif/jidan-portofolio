@@ -11,7 +11,7 @@ import Skills from './components/Skills';
 import Projects from './components/Projects'
 import Certificates from './components/Certificates'
 import Contact from './components/Contact';
-import { needsIosScrollFix, prefersNativeScroll } from './lib/device'
+import { needsIosScrollFix, prefersNativeScroll, syncPhoneOrientation } from './lib/device'
 
 function setAppHeight() {
   const height = window.visualViewport?.height || window.innerHeight
@@ -26,6 +26,7 @@ function App() {
 
     const refreshIfWidthChanged = () => {
       setAppHeight()
+      syncPhoneOrientation()
       const width = window.innerWidth
       if (Math.abs(width - lastWidth) < 48) return
       lastWidth = width
@@ -36,6 +37,7 @@ function App() {
     const onOrientation = () => {
       lastWidth = window.innerWidth
       setAppHeight()
+      syncPhoneOrientation()
       window.clearTimeout(refreshTimer)
       refreshTimer = window.setTimeout(() => ScrollTrigger.refresh(), 280)
     }

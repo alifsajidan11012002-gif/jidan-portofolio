@@ -27,3 +27,24 @@ export function isTouchDevice() {
 export function prefersNativeScroll() {
   return isIOS() || isTouchDevice()
 }
+
+export function isPhonePortrait() {
+  if (typeof window === 'undefined') return false
+  return window.matchMedia('(orientation: portrait) and (max-width: 900px)').matches
+}
+
+export function isPhoneLandscape() {
+  if (typeof window === 'undefined') return false
+  return window.matchMedia('(orientation: landscape) and (max-height: 540px)').matches
+}
+
+export function syncPhoneOrientation() {
+  if (typeof document === 'undefined') return { portrait: false, landscape: false }
+  const portrait = isPhonePortrait()
+  const landscape = isPhoneLandscape()
+  const root = document.documentElement
+  root.classList.toggle('is-phone-portrait', portrait)
+  root.classList.toggle('is-phone-landscape', landscape)
+  root.classList.toggle('is-phone', portrait || landscape)
+  return { portrait, landscape }
+}

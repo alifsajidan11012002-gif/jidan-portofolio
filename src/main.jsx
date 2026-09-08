@@ -3,9 +3,11 @@ import { createRoot } from 'react-dom/client'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import './index.css'
+import './phone-layout.css'
 import App from './App.jsx'
-import { needsIosScrollFix } from './lib/device'
+import { needsIosScrollFix, syncPhoneOrientation } from './lib/device'
 
+syncPhoneOrientation()
 if (needsIosScrollFix()) {
   document.documentElement.classList.add('is-ios')
 }

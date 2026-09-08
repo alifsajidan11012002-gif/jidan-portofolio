@@ -382,7 +382,7 @@ function KeyboardScene({ isMobile, reduceMotion, scrollProgress, hoveredSkill, o
 export default function SkillsKeyboard({ scrollProgress }) {
   const fallbackProgress = useRef(1)
   const wrapRef = useRef(null)
-  const isMobile = useMediaFlag('(max-width: 768px)')
+  const isMobile = useMediaFlag('(max-width: 900px), ((orientation: landscape) and (max-height: 540px))')
   const reduceMotion = useMediaFlag('(prefers-reduced-motion: reduce)')
   const progress = scrollProgress ?? fallbackProgress
   const [hoveredSkill, setHoveredSkill] = useState(null)

@@ -96,8 +96,9 @@ export default function Projects() {
   useLayoutEffect(() => {
     const layout = () => {
       const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-      const compact = window.innerWidth < 760
-      const spacing = compact ? 250 : 360
+      const landscapePhone = window.matchMedia('(orientation: landscape) and (max-height: 540px)').matches
+      const compact = window.innerWidth < 760 || landscapePhone
+      const spacing = landscapePhone ? 190 : compact ? 250 : 360
 
       cardRefs.current.forEach((el, index) => {
         if (!el) return
