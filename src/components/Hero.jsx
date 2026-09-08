@@ -5,7 +5,8 @@ import HoloSkillCards from './HoloSkillCards'
 import HeroAtmosphere from './HeroAtmosphere'
 import NameDissolve from './NameDissolve'
 import PortofolioTitle from './PortofolioTitle'
-import { isIOS } from '../lib/device'
+import { needsIosScrollFix } from '../lib/device'
+import { startSectionProgressLoop } from '../lib/sectionProgress'
 import './Hero.css'
 
 const FRAME_COUNT = 240
@@ -202,7 +203,36 @@ export default function Hero() {
     let lastFrame = 0
     let rafId = null
 
-    // Refresh ScrollTrigger to ensure accurate pin geometry
+    const applyProgress = (progress) => {
+      const targetFrame = Math.min(
+        FRAME_COUNT - 1,
+        Math.max(0, Math.round(progress * (FRAME_COUNT - 1)))
+      )
+
+      currentFrameRef.current = targetFrame
+
+      if (targetFrame !== lastFrame) {
+        lastFrame = targetFrame
+        drawFrame(targetFrame)
+      }
+
+      if (!rafId) {
+        rafId = requestAnimationFrame(() => {
+          setActiveFrame(targetFrame)
+          setScrollProgress(progress)
+          rafId = null
+        })
+      }
+    }
+
+    if (needsIosScrollFix()) {
+      const stop = startSectionProgressLoop(section, applyProgress)
+      return () => {
+        stop()
+        if (rafId) cancelAnimationFrame(rafId)
+      }
+    }
+
     ScrollTrigger.refresh()
 
     const trigger = ScrollTrigger.create({
@@ -212,31 +242,9 @@ export default function Hero() {
       pin: viewport,
       pinSpacing: true,
       anticipatePin: 1,
-      pinType: isIOS() ? 'transform' : 'fixed',
       scrub: true,
       invalidateOnRefresh: true,
-      onUpdate: (self) => {
-        const progress = self.progress
-        const targetFrame = Math.min(
-          FRAME_COUNT - 1,
-          Math.max(0, Math.round(progress * (FRAME_COUNT - 1)))
-        )
-
-        currentFrameRef.current = targetFrame
-
-        if (targetFrame !== lastFrame) {
-          lastFrame = targetFrame
-          drawFrame(targetFrame)
-        }
-
-        if (!rafId) {
-          rafId = requestAnimationFrame(() => {
-            setActiveFrame(targetFrame)
-            setScrollProgress(progress)
-            rafId = null
-          })
-        }
-      },
+      onUpdate: (self) => applyProgress(self.progress),
     })
 
     return () => {
@@ -274,6 +282,7 @@ export default function Hero() {
       <div ref={viewportRef} className="hero-sticky-viewport">
         <canvas ref={canvasRef} className="hero-canvas" />
         <div className="hero-edge-veil" aria-hidden="true" />
+        <div className="hero-ios-fade" aria-hidden="true" />
         <HeroAtmosphere progress={scrollProgress} />
 
         <PortofolioTitle progress={scrollProgress} />

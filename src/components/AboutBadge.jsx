@@ -192,6 +192,12 @@ export default function AboutBadge() {
       startFall()
     }
 
+    const onWinScroll = () => {
+      if (stage.getBoundingClientRect().top < window.innerHeight * 0.88) startFall()
+    }
+    window.addEventListener('scroll', onWinScroll, { passive: true })
+    window.addEventListener('touchmove', onWinScroll, { passive: true })
+
     stage.addEventListener('pointermove', onMove)
     card.addEventListener('pointerdown', onDown)
     window.addEventListener('pointerup', onUp)
@@ -201,6 +207,8 @@ export default function AboutBadge() {
       cancelAnimationFrame(raf)
       trigger.kill()
       observer.disconnect()
+      window.removeEventListener('scroll', onWinScroll)
+      window.removeEventListener('touchmove', onWinScroll)
       stage.removeEventListener('pointermove', onMove)
       card.removeEventListener('pointerdown', onDown)
       window.removeEventListener('pointerup', onUp)

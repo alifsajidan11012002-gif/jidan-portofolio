@@ -3,7 +3,8 @@ import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import SkillsKeyboard from './keyboard/SkillsKeyboard'
 import useMediaFlag from '../hooks/useMediaFlag'
-import { isIOS } from '../lib/device'
+import { needsIosScrollFix } from '../lib/device'
+import { startSectionProgressLoop } from '../lib/sectionProgress'
 import './Skills.css'
 
 gsap.registerPlugin(ScrollTrigger)
@@ -67,24 +68,25 @@ export default function Skills() {
         },
       })
 
-      ScrollTrigger.create({
-        id: 'skills-keyboard',
-        trigger: sectionRef.current,
-        pin: pinRef.current,
-        start: 'top top',
-        end: '+=150%',
-        pinSpacing: true,
-        anticipatePin: 1,
-        pinType: isIOS() ? 'transform' : 'fixed',
-        scrub: 1.2,
-        invalidateOnRefresh: true,
-        onUpdate: (self) => {
-          scrollProgress.current = self.progress
-        },
-        onRefresh: (self) => {
-          scrollProgress.current = self.progress
-        },
-      })
+      if (!needsIosScrollFix()) {
+        ScrollTrigger.create({
+          id: 'skills-keyboard',
+          trigger: sectionRef.current,
+          pin: pinRef.current,
+          start: 'top top',
+          end: '+=150%',
+          pinSpacing: true,
+          anticipatePin: 1,
+          scrub: 1.2,
+          invalidateOnRefresh: true,
+          onUpdate: (self) => {
+            scrollProgress.current = self.progress
+          },
+          onRefresh: (self) => {
+            scrollProgress.current = self.progress
+          },
+        })
+      }
 
       gsap.fromTo(
         '.skills-atmosphere-bloom',
@@ -118,8 +120,14 @@ export default function Skills() {
     const refresh = () => ScrollTrigger.refresh()
     const refreshTimer = window.setTimeout(refresh, 120)
     window.addEventListener('load', refresh)
+    const stopIos = needsIosScrollFix()
+      ? startSectionProgressLoop(sectionRef.current, (progress) => {
+          scrollProgress.current = progress
+        })
+      : () => {}
 
     return () => {
+      stopIos()
       window.clearTimeout(refreshTimer)
       window.removeEventListener('load', refresh)
       ctx.revert()

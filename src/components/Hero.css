@@ -40,6 +40,36 @@
   mask-image: linear-gradient(to bottom, #000 0%, #000 calc(100% - 5vh), transparent 100%);
 }
 
+.hero-ios-fade {
+  display: none;
+}
+
+html.is-ios .hero-scroll-section {
+  height: 450vh;
+}
+
+html.is-ios .hero-sticky-viewport {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  max-height: 100vh;
+  -webkit-mask-image: none;
+  mask-image: none;
+}
+
+html.is-ios .hero-ios-fade {
+  display: block;
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 3;
+  height: 8vh;
+  pointer-events: none;
+  background: linear-gradient(to bottom, transparent, #000);
+}
+
 /* Canvas element — full frame, no fade overlay */
 .hero-canvas {
   position: absolute;

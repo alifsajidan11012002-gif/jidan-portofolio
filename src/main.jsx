@@ -4,6 +4,11 @@ import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import './index.css'
 import App from './App.jsx'
+import { needsIosScrollFix } from './lib/device'
+
+if (needsIosScrollFix()) {
+  document.documentElement.classList.add('is-ios')
+}
 
 gsap.registerPlugin(ScrollTrigger)
 ScrollTrigger.config({

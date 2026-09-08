@@ -115,7 +115,7 @@
   -webkit-transform-style: preserve-3d;
   will-change: transform, opacity;
   transition: none;
-  touch-action: manipulation;
+  touch-action: pan-y;
 }
 
 .holo-stage.is-inspecting .holo-card {
@@ -500,14 +500,5 @@
   .holo-flicker,
   .holo-rec::before {
     animation: none;
-  }
-
-  .holo-card:not(.is-featured) {
-    display: none;
-  }
-
-  .holo-card.is-featured {
-    transform: translate3d(-18vw, 2vh, 80px) !important;
-    opacity: 1 !important;
   }
 }

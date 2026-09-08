@@ -78,9 +78,14 @@ a,
   min-height: 100vh;
   margin: 0;
   padding: 0;
-  display: flex;
-  flex-direction: column;
   position: relative;
+}
+
+html.is-ios,
+html.is-ios body {
+  height: auto;
+  overflow: visible;
+  overscroll-behavior-y: none;
 }
 
 /* Custom modern scrollbar */

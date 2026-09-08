@@ -11,7 +11,7 @@ import Skills from './components/Skills';
 import Projects from './components/Projects'
 import Certificates from './components/Certificates'
 import Contact from './components/Contact';
-import { isIOS, prefersNativeScroll } from './lib/device'
+import { needsIosScrollFix, prefersNativeScroll } from './lib/device'
 
 function setAppHeight() {
   const height = window.visualViewport?.height || window.innerHeight
@@ -59,16 +59,25 @@ function App() {
 
   useEffect(() => {
     const nativeScroll = prefersNativeScroll()
-
-    if (isIOS()) {
-      ScrollTrigger.normalizeScroll(true)
-    }
+    const iosFix = needsIosScrollFix()
 
     if (nativeScroll) {
       document.documentElement.classList.add('is-native-scroll')
+    }
+
+    let iosRaf = 0
+    if (iosFix) {
+      const keepAlive = () => {
+        ScrollTrigger.update()
+        iosRaf = requestAnimationFrame(keepAlive)
+      }
+      iosRaf = requestAnimationFrame(keepAlive)
+    }
+
+    if (nativeScroll) {
       return () => {
         document.documentElement.classList.remove('is-native-scroll')
-        if (isIOS()) ScrollTrigger.normalizeScroll(false)
+        if (iosRaf) cancelAnimationFrame(iosRaf)
       }
     }
 
@@ -90,10 +99,10 @@ function App() {
     gsap.ticker.lagSmoothing(0)
 
     return () => {
+      if (iosRaf) cancelAnimationFrame(iosRaf)
       gsap.ticker.remove(updateTicker)
       gsap.ticker.lagSmoothing(500, 33)
       lenis.destroy()
-      if (isIOS()) ScrollTrigger.normalizeScroll(false)
     }
   }, [])
 
