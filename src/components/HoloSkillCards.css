@@ -4,8 +4,9 @@
   z-index: 8;
   pointer-events: none;
   perspective: 1600px;
+  -webkit-perspective: 1600px;
   perspective-origin: 50% 54%;
-  overflow: hidden;
+  overflow: visible;
   transform-style: preserve-3d;
   -webkit-transform-style: preserve-3d;
 }
@@ -41,8 +42,11 @@
   position: absolute;
   inset: 0;
   perspective: inherit;
+  -webkit-perspective: inherit;
   perspective-origin: inherit;
   pointer-events: none;
+  transform-style: preserve-3d;
+  -webkit-transform-style: preserve-3d;
 }
 
 .holo-depth.is-back {
@@ -414,33 +418,43 @@
 
 @media (max-width: 768px) {
   .holo-stage {
-    perspective: 1400px;
+    perspective: 1100px;
+    -webkit-perspective: 1100px;
   }
 
   .holo-card {
-    left: -6.6rem;
-    top: -9.2rem;
-    width: 13.2rem;
+    left: -5.05rem;
+    top: -7.15rem;
+    width: 10.1rem;
   }
 
   .holo-footage {
-    height: 132px;
+    height: 92px;
+  }
+
+  .holo-meta {
+    padding: 0.58rem 0.7rem 0.68rem;
   }
 
   .holo-title {
-    font-size: 1.02rem;
+    font-size: 0.76rem;
+    letter-spacing: 0.02em;
   }
 
   .holo-line {
-    display: -webkit-box;
-    font-size: 0.78rem;
+    display: none;
+  }
+
+  .holo-hint {
+    margin-top: 0.35rem;
+    font-size: 0.62rem;
   }
 
   .holo-sleep {
-    left: -18rem;
-    top: 1.2rem;
+    left: -14rem;
+    top: 0.6rem;
     bottom: auto;
-    width: min(18rem, 72vw);
+    width: min(14rem, 68vw);
   }
 
   .holo-card.is-focused .holo-sleep {
@@ -448,17 +462,37 @@
   }
 
   .holo-extrude {
-    font-size: clamp(1.7rem, 7vw, 2.4rem);
+    font-size: clamp(1.15rem, 5.4vw, 1.7rem);
   }
 
   .holo-sleep-facts li {
-    font-size: 0.9rem;
+    font-size: 0.78rem;
   }
 
   .holo-floor-ring {
-    left: -22vw;
-    width: 44vw;
-    height: 44vw;
+    left: -28vw;
+    width: 56vw;
+    height: 56vw;
+  }
+}
+
+@media (max-width: 560px) {
+  .holo-card {
+    left: -4.35rem;
+    top: -6.2rem;
+    width: 8.7rem;
+  }
+
+  .holo-footage {
+    height: 78px;
+  }
+
+  .holo-title {
+    font-size: 0.68rem;
+  }
+
+  .holo-meta-top {
+    margin-bottom: 0.15rem;
   }
 }
 

@@ -3,6 +3,7 @@ import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import SkillsKeyboard from './keyboard/SkillsKeyboard'
 import useMediaFlag from '../hooks/useMediaFlag'
+import { isIOS } from '../lib/device'
 import './Skills.css'
 
 gsap.registerPlugin(ScrollTrigger)
@@ -74,6 +75,7 @@ export default function Skills() {
         end: '+=150%',
         pinSpacing: true,
         anticipatePin: 1,
+        pinType: isIOS() ? 'transform' : 'fixed',
         scrub: 1.2,
         invalidateOnRefresh: true,
         onUpdate: (self) => {

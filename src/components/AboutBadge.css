@@ -149,11 +149,15 @@
 
 @media (max-width: 900px) {
   .about-badge-stage {
-    min-height: 52vh;
+    min-height: 420px;
   }
 
   .about-badge {
-    width: min(100%, 240px);
-    margin-left: -120px;
+    width: min(72vw, 210px);
+    margin-left: calc(min(72vw, 210px) / -2);
+  }
+
+  .about-badge-photo {
+    height: 152px;
   }
 }

@@ -33,7 +33,6 @@
 
 .app-container {
   width: 100%;
-  overflow-x: clip;
 }
 
 *, *::before, *::after {
@@ -82,7 +81,6 @@ a,
   display: flex;
   flex-direction: column;
   position: relative;
-  overflow-x: clip;
 }
 
 /* Custom modern scrollbar */

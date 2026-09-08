@@ -5,6 +5,7 @@ import HoloSkillCards from './HoloSkillCards'
 import HeroAtmosphere from './HeroAtmosphere'
 import NameDissolve from './NameDissolve'
 import PortofolioTitle from './PortofolioTitle'
+import { isIOS } from '../lib/device'
 import './Hero.css'
 
 const FRAME_COUNT = 240
@@ -211,6 +212,7 @@ export default function Hero() {
       pin: viewport,
       pinSpacing: true,
       anticipatePin: 1,
+      pinType: isIOS() ? 'transform' : 'fixed',
       scrub: true,
       invalidateOnRefresh: true,
       onUpdate: (self) => {

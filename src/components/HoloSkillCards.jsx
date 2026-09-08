@@ -30,14 +30,14 @@ function cardEnter(progress, index) {
 }
 
 function useOrbitRadius() {
-  const [radius, setRadius] = useState({ x: 26, z: 340 })
+  const [radius, setRadius] = useState({ x: 26, z: 340, scale: 1 })
 
   useEffect(() => {
     const update = () => {
       const width = window.innerWidth
-      if (width <= 560) setRadius({ x: 24, z: 270 })
-      else if (width <= 768) setRadius({ x: 25, z: 300 })
-      else setRadius({ x: 26, z: 340 })
+      if (width <= 560) setRadius({ x: 36, z: 168, scale: 0.68 })
+      else if (width <= 768) setRadius({ x: 32, z: 210, scale: 0.78 })
+      else setRadius({ x: 26, z: 340, scale: 1 })
     }
     update()
     window.addEventListener('resize', update)
@@ -83,7 +83,7 @@ function getOrbitFromAngle(angle, radius) {
   const x = sinA * radius.x
   const y = sinA * 4.6 + cosA * 0.9
   const z = cosA * radius.z
-  const scale = 0.36 + depth * 0.64
+  const scale = (0.36 + depth * 0.64) * (radius.scale ?? 1)
   const opacity = 0.24 + depth * 0.76
   const rotateY = -sinA * 40
   const rotateX = cosA * 8 - sinA * 6
@@ -197,6 +197,7 @@ export default function HoloSkillCards({ progress }) {
           handleTilt={handleTilt}
           clearTilt={clearTilt}
           isMobile={isMobile}
+          sizeScale={radius.scale}
         />
       )
     })
@@ -260,13 +261,14 @@ function Card({
   handleTilt,
   clearTilt,
   isMobile,
+  sizeScale,
 }) {
   const dimmed = Boolean(focusedId && !isFocused)
-  const boost = isFocused ? 1.16 : isHovered ? 1.06 : 1
+  const boost = isFocused ? 1.08 : isHovered ? 1.04 : 1
   const destX = isFocused ? dest.x * 0.38 : orbit.x
   const destY = isFocused ? dest.y * 0.18 : orbit.y
-  const destZ = isFocused ? 130 : orbit.z + (1 - enter) * -260
-  const destScale = (isFocused ? 1.08 : orbit.scale) * boost
+  const destZ = isFocused ? 110 : orbit.z + (1 - enter) * -260
+  const destScale = (isFocused ? 1.02 * sizeScale : orbit.scale) * boost
   const appear = smoothstep(0.04, 0.32, enter)
   const liveOpacity = enter >= 0.96 ? orbit.opacity : appear
   const interactive = enter > 0.68

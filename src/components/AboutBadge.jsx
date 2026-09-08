@@ -157,22 +157,40 @@ export default function AboutBadge() {
     }
 
     let raf = requestAnimationFrame(tick)
+    let started = reduced
+
+    const startFall = () => {
+      if (started || reduced) return
+      started = true
+      state.live = true
+      state.x = 22
+      state.y = -260
+      state.vx = 2.2
+      state.vy = 6
+      card.classList.add('is-falling')
+      window.setTimeout(() => card.classList.remove('is-falling'), 900)
+    }
 
     const trigger = ScrollTrigger.create({
       trigger: stage,
-      start: 'top 78%',
+      start: 'top 86%',
       once: true,
-      onEnter: () => {
-        if (reduced) return
-        state.live = true
-        state.x = 22
-        state.y = -260
-        state.vx = 2.2
-        state.vy = 6
-        card.classList.add('is-falling')
-        window.setTimeout(() => card.classList.remove('is-falling'), 900)
-      },
+      onEnter: startFall,
     })
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((entry) => entry.isIntersecting && entry.intersectionRatio > 0.12)) {
+          startFall()
+        }
+      },
+      { threshold: [0.12, 0.28, 0.5] }
+    )
+    observer.observe(stage)
+
+    if (stage.getBoundingClientRect().top < window.innerHeight * 0.9) {
+      startFall()
+    }
 
     stage.addEventListener('pointermove', onMove)
     card.addEventListener('pointerdown', onDown)
@@ -182,6 +200,7 @@ export default function AboutBadge() {
     return () => {
       cancelAnimationFrame(raf)
       trigger.kill()
+      observer.disconnect()
       stage.removeEventListener('pointermove', onMove)
       card.removeEventListener('pointerdown', onDown)
       window.removeEventListener('pointerup', onUp)

@@ -11,6 +11,7 @@ import Skills from './components/Skills';
 import Projects from './components/Projects'
 import Certificates from './components/Certificates'
 import Contact from './components/Contact';
+import { isIOS, prefersNativeScroll } from './lib/device'
 
 function setAppHeight() {
   const height = window.visualViewport?.height || window.innerHeight
@@ -41,21 +42,41 @@ function App() {
 
     window.addEventListener('resize', refreshIfWidthChanged)
     window.addEventListener('orientationchange', onOrientation)
+    window.addEventListener('pageshow', onOrientation)
+
+    const bootRefresh = [180, 600, 1400].map((delay) =>
+      window.setTimeout(() => ScrollTrigger.refresh(), delay)
+    )
 
     return () => {
       window.clearTimeout(refreshTimer)
+      bootRefresh.forEach((id) => window.clearTimeout(id))
       window.removeEventListener('resize', refreshIfWidthChanged)
       window.removeEventListener('orientationchange', onOrientation)
+      window.removeEventListener('pageshow', onOrientation)
     }
   }, [])
 
   useEffect(() => {
+    const nativeScroll = prefersNativeScroll()
+
+    if (isIOS()) {
+      ScrollTrigger.normalizeScroll(true)
+    }
+
+    if (nativeScroll) {
+      document.documentElement.classList.add('is-native-scroll')
+      return () => {
+        document.documentElement.classList.remove('is-native-scroll')
+        if (isIOS()) ScrollTrigger.normalizeScroll(false)
+      }
+    }
+
     const lenis = new Lenis({
       duration: 1.15,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       smoothWheel: true,
-      syncTouch: true,
-      touchMultiplier: 1.28,
+      syncTouch: false,
       gestureOrientation: 'vertical',
     })
 
@@ -72,6 +93,7 @@ function App() {
       gsap.ticker.remove(updateTicker)
       gsap.ticker.lagSmoothing(500, 33)
       lenis.destroy()
+      if (isIOS()) ScrollTrigger.normalizeScroll(false)
     }
   }, [])
 
