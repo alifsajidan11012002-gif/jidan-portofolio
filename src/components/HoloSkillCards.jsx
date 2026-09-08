@@ -265,14 +265,15 @@ function Card({
 }) {
   const dimmed = Boolean(focusedId && !isFocused)
   const boost = isFocused ? 1.08 : isHovered ? 1.04 : 1
-  const destX = isFocused ? dest.x * 0.38 : orbit.x
-  const destY = isFocused ? dest.y * 0.18 : orbit.y
-  const destZ = isFocused ? 110 : orbit.z + (1 - enter) * -260
-  const destScale = (isFocused ? 1.02 * sizeScale : orbit.scale) * boost
+  const destX = isFocused ? dest.x * 0.2 : orbit.x
+  const destY = isFocused ? dest.y * 0.08 - (isMobile ? 16 : 0) : orbit.y
+  const destZ = isFocused ? 90 : orbit.z + (1 - enter) * -260
+  const destScale = (isFocused ? 0.98 * sizeScale : orbit.scale) * boost
   const appear = smoothstep(0.04, 0.32, enter)
   const liveOpacity = enter >= 0.96 ? orbit.opacity : appear
   const interactive = enter > 0.68
-  const extrudeLayers = isMobile ? 18 : 28
+  const extrudeLayers = isFocused ? (isMobile ? 14 : 28) : 0
+  const footageActive = isFocused || isHovered || isFront || orbit.depth > 0.72
 
   return (
     <article
@@ -324,27 +325,29 @@ function Card({
       aria-pressed={isFocused}
       aria-label={`${skill.title}. Ketuk untuk fokus.`}
     >
-      <aside className="holo-sleep" aria-hidden={!isFocused}>
-        <div className="holo-extrude">
-          {Array.from({ length: extrudeLayers }, (_, layer) => (
-            <span
-              key={layer}
-              className={`holo-extrude-layer${layer === 0 ? ' is-face' : ''}`}
-              style={{
-                transform: `translateZ(${-layer * 2.15}px)`,
-                color: layer === 0 ? '#ffffff' : `hsl(210 8% ${18 + layer * 0.7}%)`,
-              }}
-            >
-              {skill.sleep.headline}
-            </span>
-          ))}
-        </div>
-        <ul className="holo-sleep-facts">
-          {skill.sleep.facts.map((fact) => (
-            <li key={fact}>{fact}</li>
-          ))}
-        </ul>
-      </aside>
+      {isFocused ? (
+        <aside className="holo-sleep" aria-hidden="false">
+          <div className="holo-extrude">
+            {Array.from({ length: extrudeLayers }, (_, layer) => (
+              <span
+                key={layer}
+                className={`holo-extrude-layer${layer === 0 ? ' is-face' : ''}`}
+                style={{
+                  transform: `${isMobile ? 'translateX(-50%) ' : ''}translateZ(${-layer * 2.15}px)`,
+                  color: layer === 0 ? '#ffffff' : `hsl(210 8% ${18 + layer * 0.7}%)`,
+                }}
+              >
+                {skill.sleep.headline}
+              </span>
+            ))}
+          </div>
+          <ul className="holo-sleep-facts">
+            {skill.sleep.facts.map((fact) => (
+              <li key={fact}>{fact}</li>
+            ))}
+          </ul>
+        </aside>
+      ) : null}
 
       <div className="holo-card-frame">
         <span className="holo-corner tl" />
@@ -353,7 +356,7 @@ function Card({
         <span className="holo-corner br" />
 
         <div className="holo-footage">
-          <SkillFootage type={skill.footage} active={enter > 0.08 || isFront || isFocused || isHovered || orbit.depth > 0.55} />
+          <SkillFootage type={skill.footage} active={footageActive} />
           <div className="holo-scanlines" />
           <div className="holo-flicker" />
           <span className="holo-rec">REC</span>

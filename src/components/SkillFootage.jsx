@@ -4,6 +4,19 @@ const FRAME_SOURCES = [1, 20, 40, 70, 100, 130, 160, 190, 220].map(
   (n) => `/frames/ezgif-frame-${String(n).padStart(3, '0')}.jpg`
 )
 
+let sharedFrames = null
+function getSharedFrames() {
+  if (!sharedFrames) {
+    sharedFrames = FRAME_SOURCES.map((src) => {
+      const img = new Image()
+      img.decoding = 'async'
+      img.src = src
+      return img
+    })
+  }
+  return sharedFrames
+}
+
 function roundedRect(ctx, x, y, w, h, r) {
   ctx.beginPath()
   if (typeof ctx.roundRect === 'function') {
@@ -1222,11 +1235,7 @@ export default function SkillFootage({ type, active }) {
   const framesRef = useRef([])
 
   useEffect(() => {
-    framesRef.current = FRAME_SOURCES.map((src) => {
-      const img = new Image()
-      img.src = src
-      return img
-    })
+    framesRef.current = getSharedFrames()
   }, [])
 
   useEffect(() => {

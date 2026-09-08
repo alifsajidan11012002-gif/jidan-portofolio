@@ -381,18 +381,32 @@ function KeyboardScene({ isMobile, reduceMotion, scrollProgress, hoveredSkill, o
 
 export default function SkillsKeyboard({ scrollProgress }) {
   const fallbackProgress = useRef(1)
+  const wrapRef = useRef(null)
   const isMobile = useMediaFlag('(max-width: 768px)')
   const reduceMotion = useMediaFlag('(prefers-reduced-motion: reduce)')
   const progress = scrollProgress ?? fallbackProgress
   const [hoveredSkill, setHoveredSkill] = useState(null)
+  const [onStage, setOnStage] = useState(true)
+
+  useEffect(() => {
+    const node = wrapRef.current
+    if (!node) return undefined
+    const observer = new IntersectionObserver(
+      ([entry]) => setOnStage(Boolean(entry?.isIntersecting)),
+      { rootMargin: '15% 0px' }
+    )
+    observer.observe(node)
+    return () => observer.disconnect()
+  }, [])
 
   return (
-    <div className="skills-keyboard">
+    <div className="skills-keyboard" ref={wrapRef}>
       <StageHud scrollProgress={progress} />
       <Canvas
         style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', touchAction: 'pan-y' }}
         camera={CAMERA_CONFIG}
         dpr={isMobile ? 1 : [1, 1.5]}
+        frameloop={onStage ? 'always' : 'never'}
         gl={{ antialias: !isMobile, alpha: true, powerPreference: isMobile ? 'low-power' : 'default' }}
         resize={{ scroll: false }}
         onPointerMissed={() => setHoveredSkill(null)}

@@ -39,6 +39,7 @@ export function useCanvasFrames({ frameCount, getPath }) {
         }
 
         const img = new Image()
+        img.decoding = 'async'
         img.onload = () => {
           markLoaded(index)
           resolve(img)
@@ -77,27 +78,57 @@ export function useCanvasFrames({ frameCount, getPath }) {
           keyframeIndices.push(i)
         }
 
+        const waitIdle = () =>
+          new Promise((resolve) => {
+            const idle = window.requestIdleCallback
+            if (idle) idle(() => resolve(), { timeout: 240 })
+            else window.setTimeout(resolve, 24)
+          })
+
         const loadKeyframes = async () => {
           for (let i = 0; i < keyframeIndices.length; i += 4) {
             if (isCancelled) return
+            if (document.hidden) {
+              await new Promise((resolve) => {
+                const onVisible = () => {
+                  if (!document.hidden) {
+                    document.removeEventListener('visibilitychange', onVisible)
+                    resolve()
+                  }
+                }
+                document.addEventListener('visibilitychange', onVisible)
+              })
+            }
             const chunk = keyframeIndices.slice(i, i + 4).map((idx) => loadImage(idx))
             await Promise.all(chunk)
+            await waitIdle()
           }
 
-        // Priority 4: Fill remaining frames on desktop only — 240 JPGs can OOM phones
-        const remainingIndices = []
-        const mobile = window.matchMedia('(max-width: 768px), (pointer: coarse)').matches
-        const step = mobile ? 2 : 1
-        for (let i = 0; i < frameCount; i += step) {
-          if (!images[i] || !loadedSetRef.current.has(i)) {
-            remainingIndices.push(i)
+          const remainingIndices = []
+          const mobile = window.matchMedia('(max-width: 768px), (pointer: coarse)').matches
+          const step = mobile ? 2 : 1
+          for (let i = 0; i < frameCount; i += step) {
+            if (!images[i] || !loadedSetRef.current.has(i)) {
+              remainingIndices.push(i)
+            }
           }
-        }
 
           for (let i = 0; i < remainingIndices.length; i += 6) {
             if (isCancelled) return
+            if (document.hidden) {
+              await new Promise((resolve) => {
+                const onVisible = () => {
+                  if (!document.hidden) {
+                    document.removeEventListener('visibilitychange', onVisible)
+                    resolve()
+                  }
+                }
+                document.addEventListener('visibilitychange', onVisible)
+              })
+            }
             const chunk = remainingIndices.slice(i, i + 6).map((idx) => loadImage(idx))
             await Promise.all(chunk)
+            await waitIdle()
           }
         }
 

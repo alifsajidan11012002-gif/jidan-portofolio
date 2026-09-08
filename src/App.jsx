@@ -66,18 +66,37 @@ function App() {
     }
 
     let iosRaf = 0
+    let iosActive = false
+    let iosStopTimer = 0
+    const iosPulse = () => {
+      ScrollTrigger.update()
+      if (iosActive) iosRaf = requestAnimationFrame(iosPulse)
+      else iosRaf = 0
+    }
+    const startIosPulse = () => {
+      iosActive = true
+      window.clearTimeout(iosStopTimer)
+      iosStopTimer = window.setTimeout(() => {
+        iosActive = false
+      }, 900)
+      if (iosFix && !iosRaf) iosRaf = requestAnimationFrame(iosPulse)
+    }
+
     if (iosFix) {
-      const keepAlive = () => {
-        ScrollTrigger.update()
-        iosRaf = requestAnimationFrame(keepAlive)
-      }
-      iosRaf = requestAnimationFrame(keepAlive)
+      window.addEventListener('scroll', startIosPulse, { passive: true })
+      window.addEventListener('touchmove', startIosPulse, { passive: true })
     }
 
     if (nativeScroll) {
       return () => {
         document.documentElement.classList.remove('is-native-scroll')
+        iosActive = false
+        window.clearTimeout(iosStopTimer)
         if (iosRaf) cancelAnimationFrame(iosRaf)
+        if (iosFix) {
+          window.removeEventListener('scroll', startIosPulse)
+          window.removeEventListener('touchmove', startIosPulse)
+        }
       }
     }
 
@@ -99,7 +118,13 @@ function App() {
     gsap.ticker.lagSmoothing(0)
 
     return () => {
+      iosActive = false
+      window.clearTimeout(iosStopTimer)
       if (iosRaf) cancelAnimationFrame(iosRaf)
+      if (iosFix) {
+        window.removeEventListener('scroll', startIosPulse)
+        window.removeEventListener('touchmove', startIosPulse)
+      }
       gsap.ticker.remove(updateTicker)
       gsap.ticker.lagSmoothing(500, 33)
       lenis.destroy()

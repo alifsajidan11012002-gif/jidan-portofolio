@@ -53,19 +53,36 @@ export default function HeroAtmosphere({ progress = 0 }) {
       })
     }
 
+    let visible = true
+
     const tick = (now) => {
       if (disposed) return
-      draw(now)
-      if (!reduced) raf = requestAnimationFrame(tick)
+      if (visible) draw(now)
+      if (!reduced && visible) raf = requestAnimationFrame(tick)
+      else raf = 0
+    }
+
+    const start = () => {
+      if (!raf && !reduced && visible) raf = requestAnimationFrame(tick)
     }
 
     resize()
-    raf = requestAnimationFrame(tick)
+    start()
     window.addEventListener('resize', resize)
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        visible = Boolean(entry?.isIntersecting)
+        if (visible) start()
+      },
+      { threshold: 0.05 }
+    )
+    observer.observe(canvas)
 
     return () => {
       disposed = true
       cancelAnimationFrame(raf)
+      observer.disconnect()
       window.removeEventListener('resize', resize)
     }
   }, [])

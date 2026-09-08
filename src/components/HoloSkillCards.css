@@ -113,7 +113,7 @@
   width: 16rem;
   transform-style: preserve-3d;
   -webkit-transform-style: preserve-3d;
-  will-change: transform, opacity;
+  will-change: auto;
   transition: none;
   touch-action: pan-y;
 }
@@ -375,6 +375,11 @@
     0 0 56px color-mix(in srgb, var(--holo-accent) 62%, transparent);
 }
 
+.holo-card.is-focused,
+.holo-card.is-hovered {
+  will-change: transform, opacity;
+}
+
 .holo-card.is-focused .holo-card-frame {
   background: rgba(12, 24, 34, 0.92);
   box-shadow:
@@ -451,22 +456,40 @@
   }
 
   .holo-sleep {
-    left: -14rem;
-    top: 0.6rem;
+    left: 50%;
+    top: calc(100% + 0.2rem);
     bottom: auto;
-    width: min(14rem, 68vw);
+    width: min(78vw, 16.8rem);
+    transform: translate3d(-50%, 10px, 0) rotateX(24deg) rotateZ(-7deg);
+    transform-origin: center top;
+    text-align: center;
+    filter: none;
   }
 
   .holo-card.is-focused .holo-sleep {
-    transform: rotateX(52deg) rotateZ(-16deg) translate3d(0, 0, 0);
+    opacity: 1;
+    filter: none;
+    transform: translate3d(-50%, 0, 0) rotateX(16deg) rotateZ(-5deg);
+    animation: holo-sleep-in 0.42s cubic-bezier(0.16, 1, 0.3, 1) both;
   }
 
   .holo-extrude {
-    font-size: clamp(1.15rem, 5.4vw, 1.7rem);
+    font-size: clamp(1.35rem, 7.4vw, 2rem);
+    margin-inline: auto;
+  }
+
+  .holo-extrude-layer {
+    left: 50%;
+  }
+
+  .holo-sleep-facts {
+    align-items: center;
+    margin-top: 0.55rem;
   }
 
   .holo-sleep-facts li {
     font-size: 0.78rem;
+    text-align: center;
   }
 
   .holo-floor-ring {
@@ -496,9 +519,54 @@
   }
 }
 
+@media (max-width: 900px) and (orientation: landscape) {
+  .holo-sleep {
+    left: auto;
+    right: calc(100% + 0.45rem);
+    top: 0.2rem;
+    width: min(42vw, 15rem);
+    transform: rotateX(28deg) rotateZ(-10deg) translate3d(0, 6px, 0);
+    transform-origin: right top;
+    text-align: left;
+  }
+
+  .holo-card.is-focused .holo-sleep {
+    transform: rotateX(20deg) rotateZ(-8deg) translate3d(0, 0, 0);
+  }
+
+  .holo-extrude-layer {
+    left: 0;
+  }
+
+  .holo-sleep-facts {
+    align-items: flex-start;
+  }
+
+  .holo-sleep-facts li {
+    text-align: left;
+  }
+}
+
+@keyframes holo-sleep-in {
+  from {
+    opacity: 0;
+    filter: blur(6px);
+    transform: translate3d(-50%, 12px, 0) rotateX(28deg) rotateZ(-8deg);
+  }
+  to {
+    opacity: 1;
+    filter: none;
+    transform: translate3d(-50%, 0, 0) rotateX(16deg) rotateZ(-5deg);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .holo-flicker,
   .holo-rec::before {
+    animation: none;
+  }
+
+  .holo-card.is-focused .holo-sleep {
     animation: none;
   }
 }
